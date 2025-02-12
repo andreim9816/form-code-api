@@ -20,6 +20,10 @@ public class FormSectionEntry {
     private FieldContent fieldContent;
 
     @ManyToOne
+    @JoinColumn(name = "FK_USER_ID")
+    private User user;
+
+    @ManyToOne
     @JoinColumn(name = "FK_SECTION_ID")
     private Section section;
 

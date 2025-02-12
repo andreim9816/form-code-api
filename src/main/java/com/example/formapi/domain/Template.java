@@ -1,9 +1,6 @@
 package com.example.formapi.domain;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.Data;
 
 import java.util.List;
@@ -20,6 +17,10 @@ public class Template {
 
     private String description;
 
+    @ManyToOne
+    @JoinColumn(name = "FK_COMPANY_ID")
+    private Company company;
+    
     @OneToMany(mappedBy = "template")
-    List<Form> forms;
+    private List<Form> forms;
 }

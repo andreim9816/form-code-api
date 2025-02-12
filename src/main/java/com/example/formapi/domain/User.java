@@ -10,7 +10,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
-//@Entity
+@Entity
 @Getter
 @Setter
 @Builder
@@ -34,8 +34,12 @@ public class User implements UserDetails {
 
     private String phoneNumber;
 
+//    @ManyToOne
+//    @JoinColumn(name = "FK")
+
+
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    private List<Form> forms;
+    private List<FormSectionEntry> formSectionEntries;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

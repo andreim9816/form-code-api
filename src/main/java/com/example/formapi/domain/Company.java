@@ -19,6 +19,7 @@ public class Company {
     @OneToMany(mappedBy = "company")
     private List<Template> templates;
 
-    @OneToMany(mappedBy = "company")
-    private List<User> users;
+    //todo this is many to many
+//    @OneToMany(mappedBy = "company")
+//    private List<User> users;
 }
