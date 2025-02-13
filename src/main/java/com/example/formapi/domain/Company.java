@@ -1,9 +1,6 @@
 package com.example.formapi.domain;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 import java.util.List;
 
@@ -12,6 +9,7 @@ import java.util.List;
 public class Company {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String name;
@@ -19,7 +17,10 @@ public class Company {
     @OneToMany(mappedBy = "company")
     private List<Template> templates;
 
-    //todo this is many to many
-//    @OneToMany(mappedBy = "company")
-//    private List<User> users;
+    @ManyToMany
+    @JoinTable(name = "user_company",
+            joinColumns = @JoinColumn(name = "company_id"),
+            inverseJoinColumns = @JoinColumn(name = "user_id")
+    )
+    private List<User> users;
 }

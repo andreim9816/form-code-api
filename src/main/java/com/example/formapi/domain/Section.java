@@ -11,6 +11,7 @@ import java.util.List;
 public class Section {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String title;
@@ -18,7 +19,7 @@ public class Section {
     private String content;
 
     @OneToOne
-    @JoinColumn(name = "FK_SECTION_ID")
+    @JoinColumn(name = "FK_PREV_SECTION_ID")
     private Section previousSection; //this section can be completed once the previous was completed / validated
 
     private UserType userType; // user role that can modify this section
@@ -28,6 +29,6 @@ public class Section {
     private Template template;
 
     @OneToMany(mappedBy = "section")
-    private List<FormSectionEntry> formSectionEntries;
+    private List<SectionEntry> formSectionEntries;
 }
 

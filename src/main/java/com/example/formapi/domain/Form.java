@@ -14,6 +14,7 @@ import java.util.List;
 public class Form {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @CreatedDate // works??
@@ -26,6 +27,10 @@ public class Form {
     @JoinColumn(name = "FK_TEMPLATE_ID")
     private Template template;
 
+    @ManyToOne
+    @JoinColumn(name = "FK_USER_ID")
+    private User user;
+
     @OneToMany(mappedBy = "form")
-    private List<FormSectionEntry> formSectionEntries;
+    private List<SectionEntry> sectionEntries;
 }
