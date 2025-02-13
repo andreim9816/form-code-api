@@ -22,8 +22,6 @@ public class Section {
     @JoinColumn(name = "FK_PREV_SECTION_ID")
     private Section previousSection; //this section can be completed once the previous was completed / validated
 
-    private UserType userType; // user role that can modify this section
-
     @ManyToOne
     @JoinColumn(name = "FK_TEMPLATE_ID")
     private Template template;

@@ -7,10 +7,10 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 
 @Data
@@ -37,6 +37,8 @@ public class User implements UserDetails {
 
     private String phoneNumber;
 
+    private UserType userType;
+
     @ManyToMany(mappedBy = "users")
     private List<Company> companies;
 
@@ -51,6 +53,26 @@ public class User implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return Collections.emptyList();
+        GrantedAuthority authority = new SimpleGrantedAuthority(convertUserTypeToString(userType));
+        return List.of(authority);
+    }
+
+    private String convertUserTypeToString(UserType userType) {
+        String role = null;
+        switch (userType) {
+            case ADMIN -> {
+                role = "ROLE_ADMIN";
+            }
+            case COMPANY_MANAGER -> {
+                role = "ROLE_COMPANY_MANAGER";
+            }
+            case COMPLIANCE -> {
+                role = "ROLE_COMPLIANCE";
+            }
+            case USER -> {
+                role = "ROLE_USER";
+            }
+        }
+        return role;
     }
 }
