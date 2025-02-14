@@ -3,6 +3,7 @@ package com.example.formapi.security;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTVerificationException;
+import com.example.formapi.domain.User;
 import jakarta.annotation.PostConstruct;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
@@ -23,9 +24,9 @@ import java.util.Map;
 public class JwtService {
 
     public static final String USERNAME_KEY = "username";
-    public static final String COOKIE_KEY = "cookie";
+    public static final String COOKIE_KEY = "auth-cookie";
     public static final String API_PATH = "/api";
-    private static final int EXPIRED_TIME = 60;
+    private static final int TOKEN_TTL = 60;
 
     @Value("${HMAC_SECRET}")
     private String privateKeyStr;
@@ -50,10 +51,10 @@ public class JwtService {
         return (String) payloadMap.get(USERNAME_KEY);
     }
 
-    public String generateTokenFromUsername(String username) {
+    public String generateToken(User user) {
         return JWT.create()
-                .withClaim(USERNAME_KEY, username)
-                .withExpiresAt(Instant.now().plus(EXPIRED_TIME, ChronoUnit.MINUTES))
+                .withClaim(USERNAME_KEY, user.getUsername())
+                .withExpiresAt(Instant.now().plus(TOKEN_TTL, ChronoUnit.MINUTES))
                 .sign(algorithm);
     }
 

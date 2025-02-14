@@ -1,8 +1,13 @@
+server:
+  port: 8080
+  servlet:
+    context-path: /api
+
 spring:
   datasource:
     url: jdbc:oracle:thin:@//localhost:1521/orclpdb
-    username: system
-    password: oracle
+    username: app_username
+    password: app_password
     driver-class-name: oracle.jdbc.OracleDriver
   jpa:
     hibernate:

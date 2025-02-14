@@ -57,7 +57,7 @@ public class User implements UserDetails {
         return List.of(authority);
     }
 
-    private String convertUserTypeToString(UserType userType) {
+    public static String convertUserTypeToString(UserType userType) {
         String role = null;
         switch (userType) {
             case ADMIN -> {
