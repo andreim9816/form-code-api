@@ -1,6 +1,6 @@
 package com.example.formapi.dto;
 
-import com.example.formapi.domain.UserType;
+import com.example.formapi.domain.application.UserType;
 import lombok.*;
 
 @Getter

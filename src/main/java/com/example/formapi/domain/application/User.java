@@ -1,4 +1,4 @@
-package com.example.formapi.domain;
+package com.example.formapi.domain.application;
 
 
 import jakarta.persistence.*;
@@ -41,6 +41,9 @@ public class User implements UserDetails {
 
     @ManyToMany(mappedBy = "users")
     private List<Company> companies;
+
+    @ManyToMany(mappedBy = "users")
+    private List<CompanyRole> companyRoles;
 
     @OneToMany(mappedBy = "user")
     private List<SectionEntry> sectionEntries;

@@ -1,8 +1,8 @@
 package com.example.formapi.startup;
 
-import com.example.formapi.domain.User;
-import com.example.formapi.domain.UserType;
-import com.example.formapi.repository.UserRepository;
+import com.example.formapi.domain.application.User;
+import com.example.formapi.domain.application.UserType;
+import com.example.formapi.repository.application.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Profile;

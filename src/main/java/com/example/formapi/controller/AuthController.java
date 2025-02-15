@@ -1,6 +1,6 @@
 package com.example.formapi.controller;
 
-import com.example.formapi.domain.User;
+import com.example.formapi.domain.application.User;
 import com.example.formapi.dto.LoginDto;
 import com.example.formapi.dto.UserDto;
 import com.example.formapi.security.JwtService;

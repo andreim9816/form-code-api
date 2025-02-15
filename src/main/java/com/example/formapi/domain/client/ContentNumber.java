@@ -1,4 +1,4 @@
-package com.example.formapi.domain;
+package com.example.formapi.domain.client;
 
 import jakarta.persistence.*;
 import lombok.Data;
@@ -14,6 +14,7 @@ public class ContentNumber {
 
     private Long content;
 
-    @OneToOne(mappedBy = "contentNumber")
-    private SectionEntry sectionEntry;
+    //    @OneToOne(mappedBy = "contentBoolean")
+    @Column(name = "SECTION_ENTRY_ID")
+    private Long sectionEntryId;
 }

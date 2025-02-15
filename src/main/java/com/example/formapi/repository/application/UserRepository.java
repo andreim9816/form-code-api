@@ -1,6 +1,6 @@
-package com.example.formapi.repository;
+package com.example.formapi.repository.application;
 
-import com.example.formapi.domain.User;
+import com.example.formapi.domain.application.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

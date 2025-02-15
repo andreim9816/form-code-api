@@ -1,4 +1,4 @@
-package com.example.formapi.domain;
+package com.example.formapi.domain.application;
 
 public enum ContentType {
     NUMBER,

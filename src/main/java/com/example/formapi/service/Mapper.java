@@ -1,6 +1,6 @@
 package com.example.formapi.service;
 
-import com.example.formapi.domain.User;
+import com.example.formapi.domain.application.User;
 import com.example.formapi.dto.UserDto;
 import org.springframework.stereotype.Component;
 

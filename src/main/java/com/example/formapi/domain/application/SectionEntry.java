@@ -1,4 +1,4 @@
-package com.example.formapi.domain;
+package com.example.formapi.domain.application;
 
 import jakarta.persistence.*;
 import lombok.Data;
@@ -21,21 +21,22 @@ public class SectionEntry {
     @Column(name = "CONTENT_TYPE")
     private ContentType contentType;
 
-    @OneToOne
-    @JoinColumn(name = "FK_CONTENT_BOOLEAN_ID")
-    private ContentBoolean contentBoolean;
+//    @OneToOne
+//    @JoinColumn(name = "FK_CONTENT_BOOLEAN_ID")
 
-    @OneToOne
-    @JoinColumn(name = "FK_CONTENT_DATE_ID")
-    private ContentDate contentDate;
+    private Long contentBooleanId;
 
-    @OneToOne
-    @JoinColumn(name = "FK_CONTENT_NUMBER_ID")
-    private ContentNumber contentNumber;
+//    @OneToOne
+//    @JoinColumn(name = "FK_CONTENT_DATE_ID")
+    private Long contentDateId;
 
-    @OneToOne
-    @JoinColumn(name = "FK_CONTENT_STRING_ID")
-    private ContentString contentString;
+//    @OneToOne
+//    @JoinColumn(name = "FK_CONTENT_NUMBER_ID")
+    private Long contentNumberId;
+
+//    @OneToOne
+//    @JoinColumn(name = "FK_CONTENT_STRING_ID")
+    private Long contentStringId;
 
     @ManyToOne
     @JoinColumn(name = "FK_USER_ID")

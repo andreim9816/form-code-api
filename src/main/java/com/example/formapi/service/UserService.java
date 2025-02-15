@@ -1,8 +1,8 @@
 package com.example.formapi.service;
 
-import com.example.formapi.domain.User;
+import com.example.formapi.domain.application.User;
 import com.example.formapi.exception.CustomException;
-import com.example.formapi.repository.UserRepository;
+import com.example.formapi.repository.application.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;

@@ -1,6 +1,6 @@
 package com.example.formapi.security;
 
-import com.example.formapi.domain.User;
+import com.example.formapi.domain.application.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;

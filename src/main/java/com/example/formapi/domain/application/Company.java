@@ -1,4 +1,4 @@
-package com.example.formapi.domain;
+package com.example.formapi.domain.application;
 
 import jakarta.persistence.*;
 
@@ -16,6 +16,9 @@ public class Company {
 
     @OneToMany(mappedBy = "company")
     private List<Template> templates;
+
+    @OneToMany(mappedBy = "company")
+    private List<CompanyRole> companyRoles;
 
     @ManyToMany
     @JoinTable(name = "user_company",
