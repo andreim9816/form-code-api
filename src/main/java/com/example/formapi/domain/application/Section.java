@@ -18,6 +18,8 @@ public class Section {
 
     private String content;
 
+    private Boolean autoValidated;
+
     @OneToOne
     @JoinColumn(name = "FK_PREV_SECTION_ID")
     private Section previousSection; //this section can be completed once the previous was completed / validated
@@ -27,6 +29,6 @@ public class Section {
     private Template template;
 
     @OneToMany(mappedBy = "section")
-    private List<SectionEntry> formSectionEntries;
+    private List<SectionField> sectionFields;
 }
 

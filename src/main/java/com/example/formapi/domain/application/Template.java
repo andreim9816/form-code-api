@@ -24,7 +24,7 @@ public class Template {
 
     @ManyToOne
     @JoinColumn(name = "FK_USER_ID")
-    private User user;
+    private User creatorUser;
 
     @OneToMany(mappedBy = "template")
     private List<Form> forms;

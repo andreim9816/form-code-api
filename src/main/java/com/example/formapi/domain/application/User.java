@@ -15,7 +15,7 @@ import java.util.List;
 
 @Data
 @Entity
-@Table(name = "USERS")
+@Table(name = "USERS", uniqueConstraints = {@UniqueConstraint(columnNames = "username")})
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
@@ -46,9 +46,9 @@ public class User implements UserDetails {
     private List<CompanyRole> companyRoles;
 
     @OneToMany(mappedBy = "user")
-    private List<SectionEntry> sectionEntries;
+    private List<SectionField> sectionFields;
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "creatorUser")
     private List<Template> templates; //list of forms created by COMPLIANCE users
 
     @OneToMany(mappedBy = "user")

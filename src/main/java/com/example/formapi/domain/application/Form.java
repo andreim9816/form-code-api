@@ -6,7 +6,6 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 
 import java.util.Date;
-import java.util.List;
 
 @Data
 @Entity
@@ -30,7 +29,4 @@ public class Form {
     @ManyToOne
     @JoinColumn(name = "FK_USER_ID")
     private User user;
-
-    @OneToMany(mappedBy = "form")
-    private List<SectionEntry> sectionEntries;
 }
