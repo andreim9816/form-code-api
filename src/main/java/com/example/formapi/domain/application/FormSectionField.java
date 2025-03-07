@@ -1,9 +1,11 @@
 package com.example.formapi.domain.application;
 
 import jakarta.persistence.*;
+import lombok.Data;
 
 import java.util.Date;
 
+@Data
 @Entity
 @Table(name = "FORM_SECTION_FIELD")
 public class FormSectionField {

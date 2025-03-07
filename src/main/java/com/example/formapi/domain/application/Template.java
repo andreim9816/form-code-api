@@ -1,13 +1,20 @@
 package com.example.formapi.domain.application;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Data
 @Entity
 @Table(name = "TEMPLATE")
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class Template {
 
     @Id
@@ -26,9 +33,21 @@ public class Template {
     @JoinColumn(name = "FK_USER_ID")
     private User creatorUser;
 
-    @OneToMany(mappedBy = "template")
-    private List<Form> forms;
+    @OneToMany(mappedBy = "template", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Form> forms = new ArrayList<>();
 
-    @OneToMany(mappedBy = "template")
-    private List<Section> sections;
+    @OneToMany(mappedBy = "template", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Section> sections = new ArrayList<>();
+
+    public void setSections(List<Section> sections) {
+        this.sections.clear();
+        if (sections != null) {
+            sections.forEach(this::addSection);
+        }
+    }
+
+    public void addSection(Section field) {
+        sections.add(field);
+        field.setTemplate(this);
+    }
 }

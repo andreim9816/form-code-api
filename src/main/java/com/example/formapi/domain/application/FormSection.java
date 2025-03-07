@@ -2,6 +2,8 @@ package com.example.formapi.domain.application;
 
 import jakarta.persistence.*;
 
+import java.util.List;
+
 @Entity
 @Table(name = "FORM_SECTION")
 public class FormSection {
@@ -17,4 +19,7 @@ public class FormSection {
     @ManyToOne
     @JoinColumn(name = "FK_FORM_ID")
     private Form form;
+
+    @OneToMany(mappedBy = "formSection", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<FormSectionField> formSectionFields;
 }

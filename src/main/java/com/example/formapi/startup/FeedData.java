@@ -1,7 +1,9 @@
 package com.example.formapi.startup;
 
+import com.example.formapi.domain.application.Company;
 import com.example.formapi.domain.application.User;
 import com.example.formapi.domain.application.UserType;
+import com.example.formapi.repository.application.CompanyRepository;
 import com.example.formapi.repository.application.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
@@ -17,6 +19,7 @@ import java.util.List;
 public class FeedData implements CommandLineRunner {
 
     private final UserRepository userRepository;
+    private final CompanyRepository companyRepository;
     private final PasswordEncoder passwordEncoder;
 
     @Override
@@ -56,7 +59,10 @@ public class FeedData implements CommandLineRunner {
                 .password(passwordEncoder.encode("password4"))
                 .userType(UserType.USER)
                 .build();
-
         userRepository.saveAll(List.of(user1, user2, user3, user4));
+
+        Company company = new Company();
+        company.setName("ANAF");
+        companyRepository.save(company);
     }
 }

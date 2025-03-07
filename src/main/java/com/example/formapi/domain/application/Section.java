@@ -1,13 +1,20 @@
 package com.example.formapi.domain.application;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Data
 @Entity
 @Table(name = "SECTION")
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class Section {
 
     @Id
@@ -15,8 +22,6 @@ public class Section {
     private Long id;
 
     private String title;
-
-    private String content;
 
     private Boolean autoValidated;
 
@@ -28,7 +33,19 @@ public class Section {
     @JoinColumn(name = "FK_TEMPLATE_ID")
     private Template template;
 
-    @OneToMany(mappedBy = "section")
-    private List<SectionField> sectionFields;
+    @OneToMany(mappedBy = "section", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<SectionField> sectionFields = new ArrayList<>();
+
+    public void setSectionFields(List<SectionField> sectionFields) {
+        this.sectionFields.clear();
+        if (sectionFields != null) {
+            sectionFields.forEach(this::addSectionField);
+        }
+    }
+
+    public void addSectionField(SectionField field) {
+        sectionFields.add(field);
+        field.setSection(this); // Maintain bidirectional consistency
+    }
 }
 

@@ -45,9 +45,6 @@ public class User implements UserDetails {
     @ManyToMany(mappedBy = "users")
     private List<CompanyRole> companyRoles;
 
-    @OneToMany(mappedBy = "user")
-    private List<SectionField> sectionFields;
-
     @OneToMany(mappedBy = "creatorUser")
     private List<Template> templates; //list of forms created by COMPLIANCE users
 

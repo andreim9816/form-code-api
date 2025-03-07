@@ -1,9 +1,11 @@
 package com.example.formapi.domain.application;
 
 import jakarta.persistence.*;
+import lombok.Data;
 
 import java.util.List;
 
+@Data
 @Entity
 @Table(name = "COMPANY")
 public class Company {
