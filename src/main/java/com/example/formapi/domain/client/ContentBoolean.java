@@ -12,9 +12,11 @@ public class ContentBoolean {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private Boolean content;
+    private Boolean value;
 
-//    @OneToOne(mappedBy = "contentBoolean")
+    private String label;
+
+    //    @OneToOne(mappedBy = "contentBoolean")
     @Column(name = "SECTION_ENTRY_ID")
     private Long sectionEntryId;
 }

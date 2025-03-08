@@ -12,7 +12,7 @@ public class ContentString {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String content;
+    private String value;
 
     //    @OneToOne(mappedBy = "contentBoolean")
     @Column(name = "SECTION_ENTRY_ID")

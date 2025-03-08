@@ -3,9 +3,9 @@ package com.example.formapi.controller;
 import com.example.formapi.domain.application.User;
 import com.example.formapi.dto.LoginDto;
 import com.example.formapi.dto.UserDto;
+import com.example.formapi.mapper.UserMapper;
 import com.example.formapi.security.JwtService;
 import com.example.formapi.security.WebSecuritySupport;
-import com.example.formapi.service.Mapper;
 import com.example.formapi.service.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -36,7 +36,7 @@ public class AuthController {
     private final WebSecuritySupport webSecuritySupport;
     private final JwtService jwtService;
     private final UserService userService;
-    private final Mapper mapper;
+    private final UserMapper userMapper;
 
     @PostMapping("/login")
     public ResponseEntity<UserDto> login(@Valid @RequestBody LoginDto body) {
@@ -54,7 +54,7 @@ public class AuthController {
 
         return ResponseEntity.ok()
                 .header(HttpHeaders.SET_COOKIE, responseCookie.toString())
-                .body(mapper.toDto(user));
+                .body(userMapper.toDto(user));
     }
 
 //    @PostMapping("/register")

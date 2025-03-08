@@ -1,22 +1,31 @@
 package com.example.formapi.controller;
 
+import com.example.formapi.domain.application.Template;
+import com.example.formapi.dto.TemplateDto;
 import com.example.formapi.dto.input.ReqTemplateDto;
+import com.example.formapi.mapper.TemplateMapper;
 import com.example.formapi.service.TemplateService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RequiredArgsConstructor
 @RestController
 @RequestMapping(value = "/templates")
 public class TemplateController {
 
-    private final TemplateService templateService;
+    private final TemplateService service;
+    private final TemplateMapper templateMapper;
+
+    @GetMapping("/{templateId}")
+    public TemplateDto getTemplate(@PathVariable("templateId") Long templateId) {
+        Template template = service.findById(templateId)
+                .orElseThrow(() -> new RuntimeException("Template not found"));
+        return templateMapper.toDto(template);
+    }
 
     @PostMapping
-    public void createTemplate(@RequestBody ReqTemplateDto dto) {
-        templateService.createTemplate(dto);
+    public TemplateDto createTemplate(@RequestBody ReqTemplateDto dto) {
+       Template template = service.createTemplate(dto);
+       return templateMapper.toDto(template);
     }
 }

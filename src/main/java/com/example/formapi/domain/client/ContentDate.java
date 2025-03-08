@@ -14,7 +14,7 @@ public class ContentDate {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private Date content;
+    private Date value;
 
     //    @OneToOne(mappedBy = "contentBoolean")
     @Column(name = "SECTION_ENTRY_ID")

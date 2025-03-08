@@ -1,10 +1,9 @@
-package com.example.formapi.service;
+package com.example.formapi.mapper;
 
 import com.example.formapi.domain.application.Section;
 import com.example.formapi.domain.application.SectionField;
 import com.example.formapi.domain.application.Template;
-import com.example.formapi.domain.application.User;
-import com.example.formapi.dto.UserDto;
+import com.example.formapi.dto.TemplateDto;
 import com.example.formapi.dto.input.ReqSectionDto;
 import com.example.formapi.dto.input.ReqSectionFieldDto;
 import com.example.formapi.dto.input.ReqTemplateDto;
@@ -17,22 +16,23 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.stream.Collectors;
 
-@RequiredArgsConstructor
 @Component
-public class Mapper {
+@RequiredArgsConstructor
+public class TemplateMapper {
 
     private final CompanyRepository companyRepository;
+    private final SectionMapper sectionMapper;
 
-    public UserDto toDto(User user) {
-        return UserDto.builder()
-                .id(user.getId())
-                .userType(user.getUserType())
-                .username(user.getUsername())
-                .email(user.getEmail())
-                .phoneNumber(user.getPhoneNumber())
-                .build();
+    public TemplateDto toDto(Template template) {
+        TemplateDto dto = new TemplateDto();
+        dto.setId(template.getId());
+        dto.setTitle(template.getTitle());
+        dto.setDescription(template.getDescription());
+        dto.setCompanyId(template.getCompany().getId());
+        dto.setCreatorUserId(template.getCreatorUser() != null ? template.getCreatorUser().getId() : null); //todo
+        dto.setSections(template.getSections().stream().map(sectionMapper::toDto).collect(Collectors.toList()));
+        return dto;
     }
-
 
     //without builder works, to check !!
     @Transactional
@@ -54,6 +54,17 @@ public class Mapper {
                 var sectionField = new SectionField();
                 sectionField.setContentType(sectionFieldDto.getContentType());
                 sectionField.setAddedDate(new Date());
+
+                String defaultValue = "";
+                switch (sectionFieldDto.getContentType()) {
+                    case DATE -> defaultValue = sectionFieldDto.getContentDate().getValue().toString();
+                    case NUMBER -> defaultValue = "" + sectionFieldDto.getContentNumber().getValue();
+                    case STRING -> defaultValue = sectionFieldDto.getContentString().getValue();
+                    case BOOLEAN -> defaultValue = sectionFieldDto.getContentBoolean().getValue().toString();
+                    case BREAK_LINE -> defaultValue = "BREAK_LINE";
+                }
+                sectionField.setDefaultValue(defaultValue);
+
                 sectionFields.add(sectionField);
             }
             section.setSectionFields(sectionFields);
@@ -82,16 +93,5 @@ public class Mapper {
                 .contentType(dto.getContentType())
                 .build();
     }
-//  public User toEntity(RegisterDto dto) {
-//    return User.builder()
-//      .username(dto.getUsername())
-//      .bankAccounts(Collections.emptyList())
-//      .email(dto.getEmail())
-//      .firstname(dto.getFirstName())
-//      .lastname(dto.getLastName())
-//      .email(dto.getEmail())
-//      .phoneNumber(dto.getPhoneNumber())
-//      .password(dto.getPassword())
-//      .build();
-//  }
 }
+
