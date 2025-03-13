@@ -13,7 +13,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.stream.Collectors;
 
 @Component
@@ -22,6 +21,10 @@ public class TemplateMapper {
 
     private final CompanyRepository companyRepository;
     private final SectionMapper sectionMapper;
+    private final DateValidatorMapper dateValidatorMapper;
+    private final NumberValidatorMapper validatorMapper;
+    private final TextValidatorMapper textValidatorMapper;
+    private final NumberValidatorMapper numberValidatorMapper;
 
     public TemplateDto toDto(Template template) {
         TemplateDto dto = new TemplateDto();
@@ -53,15 +56,29 @@ public class TemplateMapper {
             for (ReqSectionFieldDto sectionFieldDto : sectionDto.getSectionFields()) {
                 var sectionField = new SectionField();
                 sectionField.setContentType(sectionFieldDto.getContentType());
-                sectionField.setAddedDate(new Date());
+//                sectionField.setAddedDate(new Date());
 
                 String defaultValue = "";
                 switch (sectionFieldDto.getContentType()) {
-                    case DATE -> defaultValue = sectionFieldDto.getContentDate().getValue().toString();
-                    case NUMBER -> defaultValue = "" + sectionFieldDto.getContentNumber().getValue();
-                    case STRING -> defaultValue = sectionFieldDto.getContentString().getValue();
-                    case BOOLEAN -> defaultValue = sectionFieldDto.getContentBoolean().getValue().toString();
-                    case BREAK_LINE -> defaultValue = "BREAK_LINE";
+                    case DATE -> {
+                        defaultValue = sectionFieldDto.getContentDate().getValue().toString();
+                        sectionField.setDateValidator(dateValidatorMapper.toEntity(sectionFieldDto.getDateValidator()));
+                    }
+                    case NUMBER -> {
+                        defaultValue = "" + sectionFieldDto.getContentNumber().getValue();
+                        sectionField.setNumberValidator(numberValidatorMapper.toEntity(sectionFieldDto.getNumberValidator()));
+                    }
+                    case STRING -> {
+                        defaultValue = sectionFieldDto.getContentString().getValue();
+                        sectionField.setTextValidator(textValidatorMapper.toEntity(sectionFieldDto.getTextValidator()));
+                    }
+                    case BOOLEAN -> {
+                        defaultValue = sectionFieldDto.getContentBoolean().getValue().toString();
+                        //todo
+                    }
+                    case BREAK_LINE -> {
+                        defaultValue = "BREAK_LINE";
+                    }
                 }
                 sectionField.setDefaultValue(defaultValue);
 
@@ -73,25 +90,6 @@ public class TemplateMapper {
         template.setSections(sections);
 
         return template;
-//        return Template.builder()
-//                .title(dto.getTitle())
-//                .description(dto.getDescription())
-//                .company(companyRepository.getReferenceById(dto.getCompanyId()))
-//                .sections(dto.getSections().stream().map(this::toEntity).collect(Collectors.toList()))
-//                .build();
-    }
-
-    public Section toEntity(ReqSectionDto dto) {
-        return Section.builder()
-                .title(dto.getTitle())
-                .sectionFields(dto.getSectionFields().stream().map(this::toEntity).collect(Collectors.toList()))
-                .build();
-    }
-
-    public SectionField toEntity(ReqSectionFieldDto dto) {
-        return SectionField.builder()
-                .contentType(dto.getContentType())
-                .build();
     }
 }
 

@@ -1,14 +1,15 @@
 package com.example.formapi.domain.application;
 
+import com.example.formapi.domain.application.validation.DateValidator;
+import com.example.formapi.domain.application.validation.NumberValidator;
+import com.example.formapi.domain.application.validation.TextValidator;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.data.annotation.CreatedDate;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 @Data
@@ -23,8 +24,8 @@ public class SectionField {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @CreatedDate
-    private Date addedDate;
+//    @CreatedDate
+//    private Date addedDate;
 
     @Column(name = "CONTENT_TYPE")
     private ContentType contentType;
@@ -38,6 +39,19 @@ public class SectionField {
 
     @OneToMany(mappedBy = "sectionField", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<FormSectionField> formSectionFields = new ArrayList<>();
+
+    //validators
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "FK_TEXT_ID")
+    private TextValidator textValidator;
+
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "FK_NUMBER_ID")
+    private NumberValidator numberValidator;
+
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "FK_DATE_ID")
+    private DateValidator dateValidator;
 
     public void addFormSectionField(FormSectionField field) {
         formSectionFields.add(field);

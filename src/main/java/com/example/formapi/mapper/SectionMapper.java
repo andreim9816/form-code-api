@@ -11,6 +11,13 @@ public class SectionMapper {
 
     private final SectionFieldMapper sectionFieldMapper;
 
+//    public Section toEntity(ReqSectionDto dto) {
+//        return Section.builder()
+//                .title(dto.getTitle())
+//                .sectionFields(dto.getSectionFields().stream().map(sectionFieldMapper::toEntity).collect(Collectors.toList()))
+//                .build();
+//    }
+
     public SectionDto toDto(Section section) {
         SectionDto dto = new SectionDto();
         dto.setId(section.getId());
