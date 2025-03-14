@@ -2,9 +2,11 @@ package com.example.formapi.domain.application;
 
 import com.example.formapi.domain.enumeration.FormSectionStatus;
 import jakarta.persistence.*;
+import lombok.Data;
 
 import java.util.List;
 
+@Data
 @Entity
 @Table(name = "FORM_SECTION")
 public class FormSection {
