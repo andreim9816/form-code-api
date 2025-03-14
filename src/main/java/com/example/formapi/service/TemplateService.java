@@ -28,8 +28,8 @@ public class TemplateService {
         return template;
     }
 
-    public Template createTemplate(ReqTemplateDto dto) {
-        var template = templateMapper.toEntity(dto);
+    public Template createTemplate(Long companyId, ReqTemplateDto dto) {
+        var template = templateMapper.toEntity(companyId, dto);
         template.setCreatorUser(webSecuritySupport.getUser());
 
         return templateRepository.save(template);

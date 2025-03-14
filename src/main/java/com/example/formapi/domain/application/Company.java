@@ -3,6 +3,7 @@ package com.example.formapi.domain.application;
 import jakarta.persistence.*;
 import lombok.Data;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Data
@@ -19,13 +20,13 @@ public class Company {
     @OneToMany(mappedBy = "company")
     private List<Template> templates;
 
-    @OneToMany(mappedBy = "company")
-    private List<CompanyRole> companyRoles;
+    @OneToMany(mappedBy = "company", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<CompanyRole> companyRoles = new ArrayList<>();
 
     @ManyToMany
     @JoinTable(name = "user_company",
             joinColumns = @JoinColumn(name = "company_id"),
             inverseJoinColumns = @JoinColumn(name = "user_id")
     )
-    private List<User> users;
+    private List<User> users = new ArrayList<>();
 }

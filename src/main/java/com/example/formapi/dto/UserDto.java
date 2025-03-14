@@ -1,6 +1,6 @@
 package com.example.formapi.dto;
 
-import com.example.formapi.domain.application.UserType;
+import com.example.formapi.domain.enumeration.UserType;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.*;
 

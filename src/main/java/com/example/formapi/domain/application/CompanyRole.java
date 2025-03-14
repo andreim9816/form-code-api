@@ -1,9 +1,12 @@
 package com.example.formapi.domain.application;
 
 import jakarta.persistence.*;
+import lombok.Data;
 
+import java.util.ArrayList;
 import java.util.List;
 
+@Data
 @Entity
 @Table(name = "COMPANY_ROLE")
 public class CompanyRole {
@@ -18,10 +21,6 @@ public class CompanyRole {
     @JoinColumn(name = "FK_COMPANY_ID")
     private Company company;
 
-    @ManyToMany
-    @JoinTable(name = "company_role",
-            joinColumns = @JoinColumn(name = "company_role_id"),
-            inverseJoinColumns = @JoinColumn(name = "user_id")
-    )
-    private List<User> users;
+    @ManyToMany(mappedBy = "companyRoles")
+    private List<User> users = new ArrayList<>();
 }

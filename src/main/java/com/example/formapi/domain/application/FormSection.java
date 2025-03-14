@@ -1,5 +1,6 @@
 package com.example.formapi.domain.application;
 
+import com.example.formapi.domain.enumeration.FormSectionStatus;
 import jakarta.persistence.*;
 
 import java.util.List;
@@ -11,6 +12,9 @@ public class FormSection {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Column(name = "STATUS")
+    private FormSectionStatus status;
 
     @ManyToOne
     @JoinColumn(name = "FK_SECTION_ID")

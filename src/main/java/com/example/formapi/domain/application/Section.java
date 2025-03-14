@@ -23,8 +23,17 @@ public class Section implements Comparable<Section> {
 
     private String title;
 
+    @Column(name = "IS_VALIDATION")
     private boolean isValidation;
 
+    @ManyToMany
+    @JoinTable(name = "section_role",
+            joinColumns = @JoinColumn(name = "section_id"),
+            inverseJoinColumns = @JoinColumn(name = "company_role_id")
+    )
+    private List<CompanyRole> companyRoles;
+
+    //todo delete
     @OneToOne
     @JoinColumn(name = "FK_PREV_SECTION_ID")
     private Section previousSection; //this section can be completed once the previous was completed / validated

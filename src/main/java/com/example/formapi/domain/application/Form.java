@@ -23,6 +23,14 @@ public class Form {
     private Date finishedOn;
 
     @ManyToOne
+    @JoinColumn(name = "FK_CURR_VALID_SECTION")
+    private Section currentValidationSection;
+
+    @ManyToOne
+    @JoinColumn(name = "FK_CURR_COMPLETE_SECTION")
+    private Section currentCompleteSection;
+
+    @ManyToOne
     @JoinColumn(name = "FK_TEMPLATE_ID")
     private Template template;
 

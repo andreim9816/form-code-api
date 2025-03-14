@@ -3,6 +3,7 @@ package com.example.formapi.domain.application;
 import com.example.formapi.domain.application.validation.DateValidator;
 import com.example.formapi.domain.application.validation.NumberValidator;
 import com.example.formapi.domain.application.validation.TextValidator;
+import com.example.formapi.domain.enumeration.ContentType;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

@@ -13,7 +13,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.stream.Collectors;
 
 @Component
@@ -22,10 +21,7 @@ public class TemplateMapper {
 
     private final CompanyRepository companyRepository;
     private final SectionMapper sectionMapper;
-    private final DateValidatorMapper dateValidatorMapper;
-    private final NumberValidatorMapper validatorMapper;
-    private final TextValidatorMapper textValidatorMapper;
-    private final NumberValidatorMapper numberValidatorMapper;
+    private final SectionFieldMapper sectionFieldMapper;
 
     public TemplateDto toDto(Template template) {
         TemplateDto dto = new TemplateDto();
@@ -38,29 +34,22 @@ public class TemplateMapper {
         return dto;
     }
 
-    //without builder works, to check !!
     @Transactional
-    public Template toEntity(ReqTemplateDto dto) {
+    public Template toEntity(Long companyId, ReqTemplateDto dto) {
         var template = new Template();
         var sections = new ArrayList<Section>();
 
         template.setTitle(dto.getTitle());
         template.setDescription(dto.getDescription());
-        template.setCompany(companyRepository.getReferenceById(dto.getCompanyId()));
+        template.setCompany(companyRepository.getReferenceById(companyId));
 
         for (ReqSectionDto sectionDto : dto.getSections()) {
-            var section = new Section();
-            section.setTitle(sectionDto.getTitle());
-            section.setValidation(sectionDto.isValidation());
+            var section = sectionMapper.toEntity(sectionDto);
             section.setTemplate(template); // FK
 
             var sectionFields = new ArrayList<SectionField>();
             for (ReqSectionFieldDto sectionFieldDto : sectionDto.getSectionFields()) {
-                var sectionField = new SectionField();
-                sectionField.setContentType(sectionFieldDto.getContentType());
-                sectionField.setDefaultValue(sectionFieldDto.getDefaultValue());
-                setValidator(sectionField, sectionFieldDto, sectionFields);
-
+                var sectionField = sectionFieldMapper.toEntity(sectionFieldDto);
                 sectionFields.add(sectionField);
             }
             section.setSectionFields(sectionFields);
@@ -69,23 +58,6 @@ public class TemplateMapper {
         template.setSections(sections);
 
         return template;
-    }
-
-    private void setValidator(SectionField sectionField, ReqSectionFieldDto sectionFieldDto, List<SectionField> sectionFields) {
-        switch (sectionFieldDto.getContentType()) {
-            case DATE -> {
-                sectionField.setDateValidator(dateValidatorMapper.toEntity(sectionFieldDto.getDateValidator()));
-            }
-            case NUMBER -> {
-                sectionField.setNumberValidator(numberValidatorMapper.toEntity(sectionFieldDto.getNumberValidator()));
-            }
-            case STRING -> {
-                sectionField.setTextValidator(textValidatorMapper.toEntity(sectionFieldDto.getTextValidator()));
-            }
-            case BOOLEAN -> {
-                //todo validator
-            }
-        }
     }
 }
 

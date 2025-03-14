@@ -2,21 +2,27 @@ package com.example.formapi.mapper;
 
 import com.example.formapi.domain.application.Section;
 import com.example.formapi.dto.SectionDto;
+import com.example.formapi.dto.input.ReqSectionDto;
+import com.example.formapi.service.CompanyRoleService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
+
+import static java.util.stream.Collectors.toList;
 
 @Component
 @RequiredArgsConstructor
 public class SectionMapper {
 
     private final SectionFieldMapper sectionFieldMapper;
+    private final CompanyRoleService companyRoleService;
 
-//    public Section toEntity(ReqSectionDto dto) {
-//        return Section.builder()
-//                .title(dto.getTitle())
-//                .sectionFields(dto.getSectionFields().stream().map(sectionFieldMapper::toEntity).collect(Collectors.toList()))
-//                .build();
-//    }
+    public Section toEntity(ReqSectionDto sectionDto) {
+        var section = new Section();
+        section.setTitle(sectionDto.getTitle());
+        section.setValidation(sectionDto.isValidation());
+        section.setCompanyRoles(sectionDto.getCompanyRoleIds().stream().map(companyRoleService::findById).collect(toList()));
+        return section;
+    }
 
     public SectionDto toDto(Section section) {
         SectionDto dto = new SectionDto();

@@ -1,6 +1,7 @@
 package com.example.formapi.domain.application;
 
 
+import com.example.formapi.domain.enumeration.UserType;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -10,6 +11,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
@@ -40,10 +42,15 @@ public class User implements UserDetails {
     private UserType userType;
 
     @ManyToMany(mappedBy = "users")
-    private List<Company> companies;
+    private List<Company> companies = new ArrayList<>();
 
-    @ManyToMany(mappedBy = "users")
-    private List<CompanyRole> companyRoles;
+    @ManyToMany
+    @JoinTable(
+            name = "user_company_role",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "company_role_id")
+    )
+    private List<CompanyRole> companyRoles = new ArrayList<>();
 
     @OneToMany(mappedBy = "creatorUser")
     private List<Template> templates; //list of forms created by COMPLIANCE users
@@ -63,7 +70,7 @@ public class User implements UserDetails {
             case ADMIN -> {
                 role = "ROLE_ADMIN";
             }
-            case COMPANY_MANAGER -> {
+            case COMPANY_ADMIN -> {
                 role = "ROLE_COMPANY_MANAGER";
             }
             case COMPLIANCE -> {

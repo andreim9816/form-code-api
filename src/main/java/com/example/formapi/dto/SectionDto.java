@@ -11,7 +11,7 @@ public class SectionDto {
     private String title;
     @JsonProperty("isValidation")
     private boolean isValidation;
-    private Long previousSectionId;
+    private Long previousSectionId; //todo can be deleted??
     private Long templateId;
     private List<SectionFieldDto> sectionFields;
 }

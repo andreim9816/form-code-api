@@ -1,6 +1,6 @@
 package com.example.formapi.dto.input;
 
-import com.example.formapi.domain.application.ContentType;
+import com.example.formapi.domain.enumeration.ContentType;
 import com.example.formapi.dto.input.validation.DateValidatorDto;
 import com.example.formapi.dto.input.validation.NumberValidatorDto;
 import com.example.formapi.dto.input.validation.TextValidatorDto;
