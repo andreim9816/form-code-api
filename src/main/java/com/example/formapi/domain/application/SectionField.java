@@ -18,7 +18,7 @@ import java.util.List;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class SectionField {
+public class SectionField implements Comparable<SectionField> {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -37,10 +37,7 @@ public class SectionField {
     @JoinColumn(name = "FK_SECTION_ID")
     private Section section;
 
-    @OneToMany(mappedBy = "sectionField", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<FormSectionField> formSectionFields = new ArrayList<>();
-
-    //validators
+    /////////////////////////////// validators
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "FK_TEXT_ID")
     private TextValidator textValidator;
@@ -53,8 +50,18 @@ public class SectionField {
     @JoinColumn(name = "FK_DATE_ID")
     private DateValidator dateValidator;
 
+    /////////////////////////////// validators
+
+    @OneToMany(mappedBy = "sectionField", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<FormSectionField> formSectionFields = new ArrayList<>();
+
     public void addFormSectionField(FormSectionField field) {
         formSectionFields.add(field);
         field.setSectionField(this); // Maintain bidirectional consistency
+    }
+
+    @Override
+    public int compareTo(SectionField o) {
+        return this.id.compareTo(o.id);
     }
 }

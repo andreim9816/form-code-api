@@ -8,6 +8,7 @@ import com.example.formapi.security.WebSecuritySupport;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.Optional;
 
 @Service
@@ -17,8 +18,14 @@ public class TemplateService {
     private final WebSecuritySupport webSecuritySupport;
     private final TemplateMapper templateMapper;
 
-    public Optional<Template> findById(Long id) {
-        return templateRepository.findById(id);
+    public Template findById(Long id) {
+        Optional<Template> templateOpt = templateRepository.findById(id);
+        if (templateOpt.isEmpty()) {
+            throw new RuntimeException("Template not found");
+        }
+        Template template = templateOpt.get();
+        sortFields(template);
+        return template;
     }
 
     public Template createTemplate(ReqTemplateDto dto) {
@@ -28,5 +35,10 @@ public class TemplateService {
         return templateRepository.save(template);
     }
 
-
+    private static void sortFields(Template template) {
+        Collections.sort(template.getSections());
+        template.getSections().forEach(
+                section -> Collections.sort(section.getSectionFields())
+        );
+    }
 }

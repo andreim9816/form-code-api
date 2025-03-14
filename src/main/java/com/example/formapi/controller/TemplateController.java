@@ -18,8 +18,7 @@ public class TemplateController {
 
     @GetMapping("/{templateId}")
     public TemplateDto getTemplate(@PathVariable("templateId") Long templateId) {
-        Template template = service.findById(templateId)
-                .orElseThrow(() -> new RuntimeException("Template not found"));
+        Template template = service.findById(templateId);
         return templateMapper.toDto(template);
     }
 

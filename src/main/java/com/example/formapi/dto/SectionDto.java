@@ -1,5 +1,6 @@
 package com.example.formapi.dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
 import java.util.List;
@@ -8,7 +9,8 @@ import java.util.List;
 public class SectionDto {
     private Long id;
     private String title;
-    private Boolean autoValidated;
+    @JsonProperty("isValidation")
+    private boolean isValidation;
     private Long previousSectionId;
     private Long templateId;
     private List<SectionFieldDto> sectionFields;

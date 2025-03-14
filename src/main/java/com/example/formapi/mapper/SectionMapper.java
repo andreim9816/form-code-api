@@ -22,7 +22,7 @@ public class SectionMapper {
         SectionDto dto = new SectionDto();
         dto.setId(section.getId());
         dto.setTitle(section.getTitle());
-        dto.setAutoValidated(section.getAutoValidated());
+        dto.setValidation(section.isValidation());
         dto.setTemplateId(section.getTemplate().getId());
         dto.setSectionFields(section.getSectionFields().stream().map(sectionFieldMapper::toDto).toList());
         return dto;

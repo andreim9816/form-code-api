@@ -13,6 +13,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.stream.Collectors;
 
 @Component
@@ -49,38 +50,16 @@ public class TemplateMapper {
 
         for (ReqSectionDto sectionDto : dto.getSections()) {
             var section = new Section();
-            section.setTitle(dto.getTitle());
+            section.setTitle(sectionDto.getTitle());
+            section.setValidation(sectionDto.isValidation());
             section.setTemplate(template); // FK
 
             var sectionFields = new ArrayList<SectionField>();
             for (ReqSectionFieldDto sectionFieldDto : sectionDto.getSectionFields()) {
                 var sectionField = new SectionField();
                 sectionField.setContentType(sectionFieldDto.getContentType());
-//                sectionField.setAddedDate(new Date());
-
-                String defaultValue = "";
-                switch (sectionFieldDto.getContentType()) {
-                    case DATE -> {
-                        defaultValue = sectionFieldDto.getContentDate().getValue().toString();
-                        sectionField.setDateValidator(dateValidatorMapper.toEntity(sectionFieldDto.getDateValidator()));
-                    }
-                    case NUMBER -> {
-                        defaultValue = "" + sectionFieldDto.getContentNumber().getValue();
-                        sectionField.setNumberValidator(numberValidatorMapper.toEntity(sectionFieldDto.getNumberValidator()));
-                    }
-                    case STRING -> {
-                        defaultValue = sectionFieldDto.getContentString().getValue();
-                        sectionField.setTextValidator(textValidatorMapper.toEntity(sectionFieldDto.getTextValidator()));
-                    }
-                    case BOOLEAN -> {
-                        defaultValue = sectionFieldDto.getContentBoolean().getValue().toString();
-                        //todo
-                    }
-                    case BREAK_LINE -> {
-                        defaultValue = "BREAK_LINE";
-                    }
-                }
-                sectionField.setDefaultValue(defaultValue);
+                sectionField.setDefaultValue(sectionFieldDto.getDefaultValue());
+                setValidator(sectionField, sectionFieldDto, sectionFields);
 
                 sectionFields.add(sectionField);
             }
@@ -90,6 +69,23 @@ public class TemplateMapper {
         template.setSections(sections);
 
         return template;
+    }
+
+    private void setValidator(SectionField sectionField, ReqSectionFieldDto sectionFieldDto, List<SectionField> sectionFields) {
+        switch (sectionFieldDto.getContentType()) {
+            case DATE -> {
+                sectionField.setDateValidator(dateValidatorMapper.toEntity(sectionFieldDto.getDateValidator()));
+            }
+            case NUMBER -> {
+                sectionField.setNumberValidator(numberValidatorMapper.toEntity(sectionFieldDto.getNumberValidator()));
+            }
+            case STRING -> {
+                sectionField.setTextValidator(textValidatorMapper.toEntity(sectionFieldDto.getTextValidator()));
+            }
+            case BOOLEAN -> {
+                //todo validator
+            }
+        }
     }
 }
 

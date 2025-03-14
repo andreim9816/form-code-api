@@ -15,7 +15,7 @@ import java.util.List;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class Section {
+public class Section implements Comparable<Section> {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,7 +23,7 @@ public class Section {
 
     private String title;
 
-    private Boolean autoValidated;
+    private boolean isValidation;
 
     @OneToOne
     @JoinColumn(name = "FK_PREV_SECTION_ID")
@@ -46,6 +46,11 @@ public class Section {
     public void addSectionField(SectionField field) {
         sectionFields.add(field);
         field.setSection(this); // Maintain bidirectional consistency
+    }
+
+    @Override
+    public int compareTo(Section o) {
+        return this.id.compareTo(o.id);
     }
 }
 

@@ -1,8 +1,6 @@
 package com.example.formapi.mapper;
 
 import com.example.formapi.domain.application.SectionField;
-import com.example.formapi.domain.application.validation.NumberValidator;
-import com.example.formapi.domain.application.validation.TextValidator;
 import com.example.formapi.dto.SectionFieldDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -31,9 +29,11 @@ public class SectionFieldMapper {
         dto.setSectionId(sectionField.getSection().getId());
 
         //validators
-        dto.setTextValidator(textValidatorMapper.toDto(sectionField.getTextValidator()));
-        dto.setTextValidator(dateValidatorMapper.toDto(sectionField.getDateValidator()));
-        dto.setTextValidator(numberValidatorMapper.toDto(sectionField.getNumberValidator()));
+        switch (sectionField.getContentType()) {
+            case STRING -> dto.setTextValidator(textValidatorMapper.toDto(sectionField.getTextValidator()));
+            case NUMBER -> dto.setNumberValidator(numberValidatorMapper.toDto(sectionField.getNumberValidator()));
+            case DATE -> dto.setDateValidator(dateValidatorMapper.toDto(sectionField.getDateValidator()));
+        }
         return dto;
     }
 }

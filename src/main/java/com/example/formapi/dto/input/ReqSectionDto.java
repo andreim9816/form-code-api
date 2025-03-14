@@ -7,5 +7,6 @@ import java.util.List;
 @Data
 public class ReqSectionDto {
     private String title;
+    private boolean isValidation;
     private List<ReqSectionFieldDto> sectionFields;
 }
