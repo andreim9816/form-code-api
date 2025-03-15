@@ -7,12 +7,12 @@ import com.example.formapi.dto.input.validation.TextValidatorDto;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 @Data
 public class SectionFieldDto {
     private Long id;
-    private Date addedDate;
+    private LocalDate addedDate;
     @JsonFormat(shape = JsonFormat.Shape.NUMBER)
     private ContentType contentType;
     private String defaultValue;

@@ -9,6 +9,7 @@ import com.example.formapi.domain.client.ContentString;
 import com.example.formapi.repository.client.ContentDateRepository;
 import com.example.formapi.repository.client.ContentNumberRepository;
 import com.example.formapi.repository.client.ContentStringRepository;
+import com.example.formapi.utils.DateUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -40,10 +41,13 @@ public class FormSectionFieldService {
             }
             case DATE -> {
                 ContentDate content = new ContentDate();
-//                content.setValue(Date.valueOf(sectionField.getDefaultValue()));
+                content.setValue(DateUtils.parseDate(sectionField.getDefaultValue()));
                 content = contentDateRepository.save(content);
+                System.out.println(content);
                 formSectionField.setContentDateId(content.getId());
             }
+            case BREAK_LINE ->
+                    formSectionField.setBreakLine(true); //todo won't this be redundant because SectionField has ContentType field???
         }
         return formSectionField;
     }

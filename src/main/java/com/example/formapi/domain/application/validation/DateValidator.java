@@ -7,7 +7,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.List;
 
 @Data
@@ -26,10 +26,10 @@ public class DateValidator {
     private boolean isRequired;
 
     @Column(name = "START_DATE")
-    private Date startDate;
+    private LocalDate startDate;
 
     @Column(name = "END_DATE")
-    private Date endDate;
+    private LocalDate endDate;
 
     @Column(name = "DATE_TIME")
     private DateTime dateTime;

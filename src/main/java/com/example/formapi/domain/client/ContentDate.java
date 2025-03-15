@@ -3,7 +3,7 @@ package com.example.formapi.domain.client;
 import jakarta.persistence.*;
 import lombok.Data;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 @Data
 @Entity
@@ -14,5 +14,5 @@ public class ContentDate {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private Date value;
+    private LocalDate value;
 }

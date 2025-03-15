@@ -24,6 +24,9 @@ public class FormSectionField {
     @Column(name = "FK_CONTENT_NUMBER_ID")
     private Long contentNumberId;
 
+    @Column(name = "IS_BREAKLINE", columnDefinition = "BOOLEAN DEFAULT FALSE")
+    private boolean isBreakLine = false;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "FK_SECTION_FIELD_ID")
     private SectionField sectionField;

@@ -8,7 +8,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 @Data
 @Builder
@@ -20,8 +20,8 @@ public class DateValidatorDto {
     @JsonProperty("isRequired")
     private boolean isRequired;
 
-    private Date startDate;
-    private Date endDate;
+    private LocalDate startDate;
+    private LocalDate endDate;
 
     @JsonFormat(shape = JsonFormat.Shape.NUMBER)
     private DateTime dateTime;

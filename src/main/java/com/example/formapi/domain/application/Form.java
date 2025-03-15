@@ -5,8 +5,8 @@ import lombok.Data;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 @Data
@@ -19,10 +19,10 @@ public class Form {
     private Long id;
 
     @CreatedDate // works??
-    private Date createdDate;
+    private LocalDate createdDate;
 
     @LastModifiedDate
-    private Date finishedDate;
+    private LocalDate finishedDate;
 
     @OneToOne
     @JoinColumn(name = "FK_CURR_VALID_SECTION")

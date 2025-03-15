@@ -8,7 +8,7 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.List;
 
 import static com.example.formapi.domain.enumeration.FormSectionStatus.IS_VALIDATION_SECTION;
@@ -37,7 +37,7 @@ public class FormService {
     @Transactional
     public Form createForm(Template template) {
         Form form = new Form();
-        form.setCreatedDate(new Date());
+        form.setCreatedDate(LocalDate.now());
         form.setTemplate(template);
         form.setCreatedUser(webSecuritySupport.getUser());
         //todo delete
