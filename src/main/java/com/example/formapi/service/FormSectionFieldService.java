@@ -57,6 +57,8 @@ public class FormSectionFieldService {
             case STRING -> deleteContentStringByIdIfExists(formSectionField.getContentStringId());
             case NUMBER -> deleteContentNumberByIdIfExists(formSectionField.getContentNumberId());
             case DATE -> deleteContentDateByIdIfExists(formSectionField.getContentDateId());
+            case BREAK_LINE -> {
+            }
         }
     }
 

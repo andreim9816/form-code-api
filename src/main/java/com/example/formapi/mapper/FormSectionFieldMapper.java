@@ -14,10 +14,12 @@ public class FormSectionFieldMapper {
         dto.setId(entity.getId());
         dto.setFormSectionId(entity.getFormSection().getId());
         dto.setSectionFieldId(entity.getSectionField().getId());
+        dto.setBreakLine(entity.isBreakLine());
         dto.setContentStringId(entity.getContentStringId());
         dto.setContentBooleanId(entity.getContentBooleanId());
         dto.setContentDateId(entity.getContentDateId());
         dto.setContentNumberId(entity.getContentNumberId());
+
         return dto;
     }
 }

@@ -30,8 +30,12 @@ public class FormService {
         return formRepository.findById(id).orElseThrow(() -> new InvalidEntityException(id));
     }
 
-    public void deleteById(Long id) {
-        formRepository.deleteById(id);
+    public void delete(Form form) {
+        form.getFormSections().stream()
+                .map(FormSection::getFormSectionFields)
+                .flatMap(List::stream)
+                .forEach(formSectionFieldService::deleteContentById);
+        formRepository.delete(form);
     }
 
     @Transactional

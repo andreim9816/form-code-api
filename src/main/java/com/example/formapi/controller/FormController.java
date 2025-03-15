@@ -29,6 +29,6 @@ public class FormController {
 
     @DeleteMapping("/{formId}")
     public void delete(@PathVariable Long formId) {
-        formService.deleteById(formId);
+        formService.delete(formService.findById(formId));
     }
 }
