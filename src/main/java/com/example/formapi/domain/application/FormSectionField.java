@@ -3,8 +3,6 @@ package com.example.formapi.domain.application;
 import jakarta.persistence.*;
 import lombok.Data;
 
-import java.util.Date;
-
 @Data
 @Entity
 @Table(name = "FORM_SECTION_FIELD")
@@ -14,12 +12,16 @@ public class FormSectionField {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String contentStringId;
+    @Column(name = "FK_CONTENT_STRING_ID")
+    private Long contentStringId;
 
-    private Boolean contentBooleanId;
+    @Column(name = "FK_CONTENT_BOOLEAN_ID")
+    private Long contentBooleanId;
 
-    private Date contentDateId;
+    @Column(name = "FK_CONTENT_DATE_ID")
+    private Long contentDateId;
 
+    @Column(name = "FK_CONTENT_NUMBER_ID")
     private Long contentNumberId;
 
     @ManyToOne(fetch = FetchType.LAZY)

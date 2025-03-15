@@ -15,7 +15,4 @@ public class ContentDate {
     private Long id;
 
     private Date value;
-
-    @Column(name = "FORM_SECTION_FIELD_ID")
-    private Long formSectionFieldId;
 }

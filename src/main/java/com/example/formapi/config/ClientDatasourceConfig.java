@@ -41,8 +41,9 @@ public class ClientDatasourceConfig {
 //                "hibernate.hbm2ddl.auto", "update",
 //                "jpa.hibernate.ddl-auto", "update",
 //                "hibernate.ddl-auto", "update",
-//                "hibernate.temp.use_jdbc_metadata_defaults","false"
-//                "hibernate.dialect", "org.hibernate.dialect.Oracle19cDialect"
+//                "hibernate.temp.use_jdbc_metadata_defaults","false",
+//                "hibernate.dialect", "org.hibernate.dialect.OracleDialect",
+//                "database-platform", "org.hibernate.dialect.OracleDialect"
         );
 
         return builder

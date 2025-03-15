@@ -9,7 +9,6 @@ import com.example.formapi.domain.client.ContentString;
 import com.example.formapi.repository.client.ContentDateRepository;
 import com.example.formapi.repository.client.ContentNumberRepository;
 import com.example.formapi.repository.client.ContentStringRepository;
-import com.example.formapi.repository.application.FormSectionFieldRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -17,7 +16,6 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class FormSectionFieldService {
 
-    private final FormSectionFieldRepository formSectionFieldRepository;
     private final ContentStringRepository contentStringRepository;
     private final ContentNumberRepository contentNumberRepository;
     private final ContentDateRepository contentDateRepository;
@@ -26,27 +24,65 @@ public class FormSectionFieldService {
         FormSectionField formSectionField = new FormSectionField();
         formSectionField.setFormSection(formSection);
         formSectionField.setSectionField(sectionField);
-        // save to persist and obtain id
-        formSectionField = formSectionFieldRepository.save(formSectionField);
 
         switch (sectionField.getContentType()) {
             case STRING -> {
                 ContentString content = new ContentString();
-                content.setFormSectionFieldId(formSectionField.getId());
-                contentStringRepository.save(content);
+                content.setValue(sectionField.getDefaultValue());
+                content = contentStringRepository.save(content);
+                formSectionField.setContentStringId(content.getId());
             }
             case NUMBER -> {
                 ContentNumber content = new ContentNumber();
-                content.setFormSectionFieldId(formSectionField.getId());
-                contentNumberRepository.save(content);
+                content.setValue(Long.valueOf(sectionField.getDefaultValue()));
+                content = contentNumberRepository.save(content);
+                formSectionField.setContentNumberId(content.getId());
             }
             case DATE -> {
                 ContentDate content = new ContentDate();
-                content.setFormSectionFieldId(formSectionField.getId());
-                contentDateRepository.save(content);
+//                content.setValue(Date.valueOf(sectionField.getDefaultValue()));
+                content = contentDateRepository.save(content);
+                formSectionField.setContentDateId(content.getId());
             }
         }
-
         return formSectionField;
+    }
+
+    public void deleteContentById(FormSectionField formSectionField) {
+        switch (formSectionField.getSectionField().getContentType()) {
+            case STRING -> deleteContentStringByIdIfExists(formSectionField.getContentStringId());
+            case NUMBER -> deleteContentNumberByIdIfExists(formSectionField.getContentNumberId());
+            case DATE -> deleteContentDateByIdIfExists(formSectionField.getContentDateId());
+        }
+    }
+
+    public ContentNumber getContentNumberById(Long id) {
+        return contentNumberRepository.findById(id).orElse(null);
+    }
+
+    public ContentString getContentStringById(Long id) {
+        return contentStringRepository.findById(id).orElse(null);
+    }
+
+    public ContentDate getContentDateById(Long id) {
+        return contentDateRepository.findById(id).orElse(null);
+    }
+
+    public void deleteContentStringByIdIfExists(Long id) {
+        if (id != null) {
+            contentStringRepository.deleteById(id);
+        }
+    }
+
+    public void deleteContentNumberByIdIfExists(Long id) {
+        if (id != null) {
+            contentNumberRepository.deleteById(id);
+        }
+    }
+
+    public void deleteContentDateByIdIfExists(Long id) {
+        if (id != null) {
+            contentDateRepository.deleteById(id);
+        }
     }
 }

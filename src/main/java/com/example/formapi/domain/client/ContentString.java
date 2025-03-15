@@ -13,7 +13,4 @@ public class ContentString {
     private Long id;
 
     private String value;
-
-    @Column(name = "FORM_SECTION_FIELD_ID")
-    private Long formSectionFieldId;
 }

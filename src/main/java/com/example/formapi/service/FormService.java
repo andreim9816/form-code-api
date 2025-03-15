@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
+import java.util.List;
 
 import static com.example.formapi.domain.enumeration.FormSectionStatus.IS_VALIDATION_SECTION;
 import static com.example.formapi.domain.enumeration.FormSectionStatus.PENDING_VALIDATION;
@@ -20,6 +21,10 @@ public class FormService {
     private final FormSectionFieldService formSectionFieldService;
     private final FormRepository formRepository;
     private final WebSecuritySupport webSecuritySupport;
+
+    public List<Form> findALl() {
+        return formRepository.findAll();
+    }
 
     public Form findById(Long id) {
         return formRepository.findById(id).orElseThrow(() -> new InvalidEntityException(id));
@@ -56,22 +61,11 @@ public class FormService {
         formSection.setStatus(section.isValidation() ? IS_VALIDATION_SECTION : PENDING_VALIDATION);
         formSection.setSection(section);
         formSection.setForm(form);
-        // set formSectionField
         for (SectionField sectionField : section.getSectionFields()) {
-            FormSectionField formSectionField = createFormSectionField(formSection, sectionField);
+            FormSectionField formSectionField = formSectionFieldService.createFormSectionField(formSection, sectionField);
             formSection.getFormSectionFields().add(formSectionField);
         }
         return formSection;
-    }
-
-    public FormSectionField createFormSectionField(FormSection formSection, SectionField sectionField) {
-        FormSectionField formSectionField = new FormSectionField();
-        formSectionField.setSectionField(sectionField);
-        formSectionField.setFormSection(formSection);
-        // create the needed ContentNumber, ContentString, ContentDate depending on the case
-        formSectionFieldService.createFormSectionField(formSection, sectionField);
-
-        return formSectionField;
     }
 
     private FormSection getFirstValidationSection(Form form) {

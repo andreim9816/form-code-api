@@ -13,7 +13,4 @@ public class ContentNumber {
     private Long id;
 
     private Long value;
-
-    @Column(name = "FORM_SECTION_FIELD_ID")
-    private Long formSectionFieldId;
 }

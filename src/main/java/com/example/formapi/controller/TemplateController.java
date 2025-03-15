@@ -33,4 +33,9 @@ public class TemplateController {
         Form form = formService.createForm(template);
         return formMapper.toDto(form);
     }
+
+    @DeleteMapping("/{templateId}")
+    public void delete(@PathVariable Long templateId) {
+        service.deleteById(templateId);
+    }
 }
