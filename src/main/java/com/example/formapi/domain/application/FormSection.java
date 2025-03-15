@@ -16,14 +16,15 @@ public class FormSection {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "STATUS")
     private FormSectionStatus status;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "FK_SECTION_ID")
     private Section section;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "FK_FORM_ID")
     private Form form;
 

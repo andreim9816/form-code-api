@@ -14,7 +14,6 @@ import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import javax.sql.DataSource;
-import java.util.HashMap;
 import java.util.Map;
 
 
@@ -38,8 +37,13 @@ public class ClientDatasourceConfig {
     @Bean(name = "clientEntityManagerFactory")
     public LocalContainerEntityManagerFactoryBean entityManagerFactory(EntityManagerFactoryBuilder builder,
                                                                        @Qualifier("clientDataSource") DataSource dataSource) {
-        Map<String, Object> properties = new HashMap<>();
-//        properties.put("hibernate.hbm2ddl.auto", "update");
+        Map<String, Object> properties = Map.of(
+//                "hibernate.hbm2ddl.auto", "update",
+//                "jpa.hibernate.ddl-auto", "update",
+//                "hibernate.ddl-auto", "update",
+//                "hibernate.temp.use_jdbc_metadata_defaults","false"
+//                "hibernate.dialect", "org.hibernate.dialect.Oracle19cDialect"
+        );
 
         return builder
                 .dataSource(dataSource)

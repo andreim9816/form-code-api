@@ -28,26 +28,27 @@ public class SectionField implements Comparable<SectionField> {
 //    @CreatedDate
 //    private Date addedDate;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "CONTENT_TYPE")
     private ContentType contentType;
 
     @Column(name = "DEFAULT_VALUE")
     private String defaultValue;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "FK_SECTION_ID")
     private Section section;
 
     /////////////////////////////// validators
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "FK_TEXT_ID")
     private TextValidator textValidator;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "FK_NUMBER_ID")
     private NumberValidator numberValidator;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "FK_DATE_ID")
     private DateValidator dateValidator;
 

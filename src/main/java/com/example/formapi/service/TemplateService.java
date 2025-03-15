@@ -2,6 +2,7 @@ package com.example.formapi.service;
 
 import com.example.formapi.domain.application.Template;
 import com.example.formapi.dto.input.ReqTemplateDto;
+import com.example.formapi.exception.InvalidEntityException;
 import com.example.formapi.mapper.TemplateMapper;
 import com.example.formapi.repository.application.TemplateRepository;
 import com.example.formapi.security.WebSecuritySupport;
@@ -9,7 +10,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.Collections;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -19,11 +19,7 @@ public class TemplateService {
     private final TemplateMapper templateMapper;
 
     public Template findById(Long id) {
-        Optional<Template> templateOpt = templateRepository.findById(id);
-        if (templateOpt.isEmpty()) {
-            throw new RuntimeException("Template not found");
-        }
-        Template template = templateOpt.get();
+        Template template = templateRepository.findById(id).orElseThrow(() -> new InvalidEntityException(id));
         sortFields(template);
         return template;
     }

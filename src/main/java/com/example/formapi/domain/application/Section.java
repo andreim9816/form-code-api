@@ -33,12 +33,7 @@ public class Section implements Comparable<Section> {
     )
     private List<CompanyRole> companyRoles;
 
-    //todo delete
-    @OneToOne
-    @JoinColumn(name = "FK_PREV_SECTION_ID")
-    private Section previousSection; //this section can be completed once the previous was completed / validated
-
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "FK_TEMPLATE_ID")
     private Template template;
 

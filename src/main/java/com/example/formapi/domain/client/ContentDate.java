@@ -16,7 +16,6 @@ public class ContentDate {
 
     private Date value;
 
-    //    @OneToOne(mappedBy = "contentBoolean")
-    @Column(name = "SECTION_ENTRY_ID")
-    private Long sectionEntryId;
+    @Column(name = "FORM_SECTION_FIELD_ID")
+    private Long formSectionFieldId;
 }

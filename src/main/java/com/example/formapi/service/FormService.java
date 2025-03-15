@@ -1,8 +1,10 @@
 package com.example.formapi.service;
 
 import com.example.formapi.domain.application.*;
+import com.example.formapi.exception.InvalidEntityException;
 import com.example.formapi.repository.application.FormRepository;
 import com.example.formapi.security.WebSecuritySupport;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -14,10 +16,20 @@ import static com.example.formapi.domain.enumeration.FormSectionStatus.PENDING_V
 @RequiredArgsConstructor
 @Service
 public class FormService {
+    private final UserService userService;
+    private final FormSectionFieldService formSectionFieldService;
     private final FormRepository formRepository;
     private final WebSecuritySupport webSecuritySupport;
-    private final UserService userService;
 
+    public Form findById(Long id) {
+        return formRepository.findById(id).orElseThrow(() -> new InvalidEntityException(id));
+    }
+
+    public void deleteById(Long id) {
+        formRepository.deleteById(id);
+    }
+
+    @Transactional
     public Form createForm(Template template) {
         Form form = new Form();
         form.setCreatedDate(new Date());
@@ -36,7 +48,7 @@ public class FormService {
         // the first Section with the boolean isValidation=true
         form.setCurrentValidationSection(getFirstValidationSection(form));
 
-        return form;
+        return formRepository.save(form);
     }
 
     public FormSection createFormSectionFromSection(Form form, Section section) {
@@ -56,12 +68,9 @@ public class FormService {
         FormSectionField formSectionField = new FormSectionField();
         formSectionField.setSectionField(sectionField);
         formSectionField.setFormSection(formSection);
+        // create the needed ContentNumber, ContentString, ContentDate depending on the case
+        formSectionFieldService.createFormSectionField(formSection, sectionField);
 
-        switch (sectionField.getContentType()) {
-            case STRING -> {
-
-            }
-        }
         return formSectionField;
     }
 

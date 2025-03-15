@@ -39,6 +39,7 @@ public class User implements UserDetails {
 
     private String phoneNumber;
 
+    @Enumerated(EnumType.STRING)
     private UserType userType;
 
     @ManyToMany(mappedBy = "users")

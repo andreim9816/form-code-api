@@ -28,4 +28,11 @@ client:
     username: client_username
     password: client_password
     driver-class-name: oracle.jdbc.OracleDriver
+  jpa:
+#    properties:
+#      hibernate:
+#        temp:
+#          use_jdbc_metadata_defaults: false
+    hibernate:
+      ddl-auto: update
 HMAC_SECRET: 123

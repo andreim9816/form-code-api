@@ -8,8 +8,8 @@ import java.util.List;
 @Data
 public class FormDto {
     private Long id;
-    private Date startedOn;
-    private Date finishedOn;
+    private Date createdDate;
+    private Date finishedDate;
     private Long currentValidationSectionId;
     private Long currentSectionId;
     private List<FormSectionDto> formSections;
