@@ -30,8 +30,6 @@ public class TemplateController {
     public FormDto createForm(@PathVariable("templateId") Long templateId) {
         Template template = service.findById(templateId);
         Form form = formService.createForm(template);
-        // create new Form with empty FormSections and FormSectionFields
-        // set currentValidateSection and currentCompleteSection
         return null;
     }
 }

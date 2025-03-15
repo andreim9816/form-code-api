@@ -55,7 +55,7 @@ public class User implements UserDetails {
     @OneToMany(mappedBy = "creatorUser")
     private List<Template> templates; //list of forms created by COMPLIANCE users
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "createdUser")
     private List<Form> startedForms; //list of forms started by USER users
 
     @Override

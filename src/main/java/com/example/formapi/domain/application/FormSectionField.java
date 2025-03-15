@@ -14,8 +14,6 @@ public class FormSectionField {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String name;
-
     private String contentStringId;
 
     private Boolean contentBooleanId;

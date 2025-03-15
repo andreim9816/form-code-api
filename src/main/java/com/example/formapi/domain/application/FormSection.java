@@ -4,6 +4,7 @@ import com.example.formapi.domain.enumeration.FormSectionStatus;
 import jakarta.persistence.*;
 import lombok.Data;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Data
@@ -27,5 +28,5 @@ public class FormSection {
     private Form form;
 
     @OneToMany(mappedBy = "formSection", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<FormSectionField> formSectionFields;
+    private List<FormSectionField> formSectionFields = new ArrayList<>();
 }

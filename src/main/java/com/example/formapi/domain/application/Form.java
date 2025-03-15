@@ -24,13 +24,13 @@ public class Form {
     @LastModifiedDate
     private Date finishedDate;
 
-    @ManyToOne
+    @OneToOne
     @JoinColumn(name = "FK_CURR_VALID_SECTION")
-    private Section currentValidationSection;
+    private FormSection currentValidationSection;
 
-    @ManyToOne
+    @OneToOne
     @JoinColumn(name = "FK_CURR_COMPLETE_SECTION")
-    private Section currentSection;
+    private FormSection currentSection;
 
     @ManyToOne
     @JoinColumn(name = "FK_TEMPLATE_ID")

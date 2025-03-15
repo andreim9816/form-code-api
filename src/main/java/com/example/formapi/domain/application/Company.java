@@ -18,7 +18,7 @@ public class Company {
     private String name;
 
     @OneToMany(mappedBy = "company")
-    private List<Template> templates;
+    private List<Template> templates = new ArrayList<>();
 
     @OneToMany(mappedBy = "company", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<CompanyRole> companyRoles = new ArrayList<>();
