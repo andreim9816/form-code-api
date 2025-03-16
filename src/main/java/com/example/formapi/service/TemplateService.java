@@ -11,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.Collections;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -19,6 +20,10 @@ public class TemplateService {
     private final TemplateRepository templateRepository;
     private final WebSecuritySupport webSecuritySupport;
     private final TemplateMapper templateMapper;
+
+    public List<Template> findAll() {
+        return templateRepository.findAll();
+    }
 
     public Template findById(Long id) {
         Template template = templateRepository.findById(id).orElseThrow(() -> new InvalidEntityException(id));

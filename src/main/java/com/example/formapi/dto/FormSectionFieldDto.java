@@ -1,5 +1,8 @@
 package com.example.formapi.dto;
 
+import com.example.formapi.dto.content.ContentDateDto;
+import com.example.formapi.dto.content.ContentNumberDto;
+import com.example.formapi.dto.content.ContentStringDto;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
@@ -8,10 +11,12 @@ public class FormSectionFieldDto {
     private Long id;
     @JsonProperty("isBreakLine")
     private boolean isBreakLine;
-    private Long contentStringId;
-    private Long contentBooleanId;
-    private Long contentDateId;
-    private Long contentNumberId;
-    private Long sectionFieldId;
     private Long formSectionId;
+    private SectionFieldDto sectionField;
+
+    private ContentStringDto contentString;
+    private ContentNumberDto contentNumber;
+    private ContentDateDto contentDate;
+
+    private Long contentBooleanId;
 }

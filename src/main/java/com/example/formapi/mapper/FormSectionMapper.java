@@ -12,11 +12,13 @@ import static java.util.stream.Collectors.toList;
 public class FormSectionMapper {
 
     private final FormSectionFieldMapper formSectionFieldMapper;
+    private final SectionMapper sectionMapper;
 
     public FormSectionDto toDto(FormSection formSection) {
         FormSectionDto dto = new FormSectionDto();
         dto.setId(formSection.getId());
         dto.setStatus(formSection.getStatus());
+        dto.setSection(sectionMapper.toLiteDto(formSection.getSection()));
         dto.setFormSectionFields(formSection.getFormSectionFields().stream().map(formSectionFieldMapper::toDto).collect(toList()));
         return dto;
     }

@@ -11,6 +11,9 @@ import com.example.formapi.service.TemplateService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @RequiredArgsConstructor
 @RestController
 @RequestMapping(value = "/templates")
@@ -20,6 +23,11 @@ public class TemplateController {
 
     private final FormService formService;
     private final FormMapper formMapper;
+
+    @GetMapping
+    public List<TemplateDto> getAllTemplates() {
+        return service.findAll().stream().map(templateMapper::toDto).collect(Collectors.toList());
+    }
 
     @GetMapping("/{templateId}")
     public TemplateDto getTemplate(@PathVariable("templateId") Long templateId) {

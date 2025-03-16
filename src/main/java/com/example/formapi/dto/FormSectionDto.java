@@ -9,6 +9,7 @@ import java.util.List;
 public class FormSectionDto {
     private Long id;
     private FormSectionStatus status;
+    private SectionLiteDto section;
     private List<FormSectionFieldDto> formSectionFields;
 
 }
