@@ -2,10 +2,7 @@ package com.example.formapi.domain.application.validation;
 
 import com.example.formapi.domain.application.SectionField;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -34,6 +31,7 @@ public class DateValidator {
     @Column(name = "DATE_TIME")
     private DateTime dateTime;
 
+    @ToString.Exclude
     @OneToMany(mappedBy = "dateValidator", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<SectionField> sectionFields;
 }

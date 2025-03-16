@@ -1,10 +1,7 @@
 package com.example.formapi.domain.application;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,10 +30,12 @@ public class Section implements Comparable<Section> {
     )
     private List<CompanyRole> companyRoles;
 
+    @ToString.Exclude
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "FK_TEMPLATE_ID")
     private Template template;
 
+    @ToString.Exclude
     @OneToMany(mappedBy = "section", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<SectionField> sectionFields = new ArrayList<>();
 
@@ -55,6 +54,15 @@ public class Section implements Comparable<Section> {
     @Override
     public int compareTo(Section o) {
         return this.id.compareTo(o.id);
+    }
+
+    @Override
+    public String toString() {
+        return "Section{" +
+                "id=" + id +
+                ", title='" + title + '\'' +
+                ", isValidation=" + isValidation +
+                '}';
     }
 }
 

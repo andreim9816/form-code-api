@@ -2,6 +2,7 @@ package com.example.formapi.domain.application;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.ToString;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,6 +18,7 @@ public class CompanyRole {
 
     private String name;
 
+    @ToString.Exclude
     @ManyToOne
     @JoinColumn(name = "FK_COMPANY_ID")
     private Company company;

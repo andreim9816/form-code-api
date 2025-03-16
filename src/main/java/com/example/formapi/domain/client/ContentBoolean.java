@@ -16,7 +16,6 @@ public class ContentBoolean {
 
     private String label;
 
-    //    @OneToOne(mappedBy = "contentBoolean")
     @Column(name = "SECTION_ENTRY_ID")
     private Long sectionEntryId;
 }

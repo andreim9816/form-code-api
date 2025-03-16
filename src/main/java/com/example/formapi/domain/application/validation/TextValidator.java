@@ -2,10 +2,7 @@ package com.example.formapi.domain.application.validation;
 
 import com.example.formapi.domain.application.SectionField;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.List;
 
@@ -42,6 +39,7 @@ public class TextValidator {
     @Column(name = "REGEX")
     private String regex;
 
+    @ToString.Exclude
     @OneToMany(mappedBy = "textValidator", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<SectionField> sectionFields;
 }

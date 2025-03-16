@@ -2,6 +2,7 @@ package com.example.formapi.domain.application;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.ToString;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,12 +18,15 @@ public class Company {
 
     private String name;
 
+    @ToString.Exclude
     @OneToMany(mappedBy = "company", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Template> templates = new ArrayList<>();
 
+    @ToString.Exclude
     @OneToMany(mappedBy = "company", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<CompanyRole> companyRoles = new ArrayList<>();
 
+    @ToString.Exclude
     @ManyToMany
     @JoinTable(name = "user_company",
             joinColumns = @JoinColumn(name = "company_id"),

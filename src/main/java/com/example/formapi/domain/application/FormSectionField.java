@@ -2,6 +2,7 @@ package com.example.formapi.domain.application;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.ToString;
 
 @Data
 @Entity
@@ -27,10 +28,12 @@ public class FormSectionField {
     @Column(name = "IS_BREAKLINE", columnDefinition = "NUMBER(1) DEFAULT 0")
     private boolean isBreakLine = false;
 
+    @ToString.Exclude
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "FK_SECTION_FIELD_ID")
     private SectionField sectionField;
 
+    @ToString.Exclude
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "FK_FORM_SECTION_ID")
     private FormSection formSection;

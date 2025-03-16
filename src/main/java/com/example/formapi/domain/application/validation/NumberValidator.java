@@ -2,10 +2,7 @@ package com.example.formapi.domain.application.validation;
 
 import com.example.formapi.domain.application.SectionField;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.List;
 
@@ -30,6 +27,7 @@ public class NumberValidator {
     @Column(name = "MAX_VALUE")
     private Long maxValue;
 
+    @ToString.Exclude
     @OneToMany(mappedBy = "numberValidator", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<SectionField> sectionFields;
 }

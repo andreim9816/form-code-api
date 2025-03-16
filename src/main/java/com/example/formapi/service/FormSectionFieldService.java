@@ -35,15 +35,14 @@ public class FormSectionFieldService {
             }
             case NUMBER -> {
                 ContentNumber content = new ContentNumber();
-                content.setValue(Long.valueOf(sectionField.getDefaultValue()));
+                content.setValue(sectionField.getDefaultValue() == null ? null : Long.valueOf(sectionField.getDefaultValue()));
                 content = contentNumberRepository.save(content);
                 formSectionField.setContentNumberId(content.getId());
             }
             case DATE -> {
                 ContentDate content = new ContentDate();
-                content.setValue(DateUtils.parseDate(sectionField.getDefaultValue()));
+                content.setValue(sectionField.getDefaultValue() == null ? null : DateUtils.parseDate(sectionField.getDefaultValue()));
                 content = contentDateRepository.save(content);
-                System.out.println(content);
                 formSectionField.setContentDateId(content.getId());
             }
             case BREAK_LINE ->

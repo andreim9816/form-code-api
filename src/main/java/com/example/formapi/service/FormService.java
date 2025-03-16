@@ -78,6 +78,6 @@ public class FormService {
                 return formSection;
             }
         }
-        throw new RuntimeException(String.format("Could not determine the next validation section for form: %s", form));
+        throw new RuntimeException("Please add at least one validation section");
     }
 }
