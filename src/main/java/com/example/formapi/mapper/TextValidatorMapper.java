@@ -22,6 +22,9 @@ public class TextValidatorMapper {
     }
 
     public TextValidatorDto toDto(TextValidator entity) {
+        if (entity == null) {
+            return null;
+        }
         return TextValidatorDto.builder()
                 .id(entity.getId())
                 .isRequired(entity.isRequired())

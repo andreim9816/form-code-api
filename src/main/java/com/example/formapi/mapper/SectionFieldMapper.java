@@ -18,7 +18,10 @@ public class SectionFieldMapper {
         var sectionField = new SectionField();
         sectionField.setContentType(dto.getContentType());
         sectionField.setDefaultValue(dto.getDefaultValue());
-        setValidator(sectionField, dto);
+        //set the validator only if there is no value. This means that the user needs to fill in the input
+        if (dto.getDefaultValue() == null) {
+            setValidator(sectionField, dto);
+        }
         return sectionField;
     }
 

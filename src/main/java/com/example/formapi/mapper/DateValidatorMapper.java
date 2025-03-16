@@ -19,6 +19,9 @@ public class DateValidatorMapper {
     }
 
     public DateValidatorDto toDto(DateValidator entity) {
+        if (entity == null) {
+            return null;
+        }
         return DateValidatorDto.builder()
                 .id(entity.getId())
                 .isRequired(entity.isRequired())

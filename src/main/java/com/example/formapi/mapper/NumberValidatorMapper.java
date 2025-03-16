@@ -18,6 +18,9 @@ public class NumberValidatorMapper {
     }
 
     public NumberValidatorDto toDto(NumberValidator entity) {
+        if (entity == null) {
+            return null;
+        }
         return NumberValidatorDto.builder()
                 .id(entity.getId())
                 .isRequired(entity.isRequired())
