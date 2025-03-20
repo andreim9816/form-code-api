@@ -55,7 +55,7 @@ public class User implements UserDetails {
     private List<Template> templates; //list of forms created by COMPLIANCE users
 
     @ToString.Exclude
-    @OneToMany(mappedBy = "createdUser")
+    @OneToMany(mappedBy = "currentUser")
     private List<Form> startedForms; //list of forms started by USER users
 
     @Override

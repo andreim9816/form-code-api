@@ -1,5 +1,6 @@
 package com.example.formapi.config;
 
+import com.example.formapi.exception.CustomException;
 import com.example.formapi.exception.ErrorDto;
 import com.example.formapi.exception.InvalidEntityException;
 import lombok.extern.slf4j.Slf4j;
@@ -16,6 +17,15 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ErrorDto> handleResourceNotFoundException(InvalidEntityException ex) {
         ex.printStackTrace();
         String message = String.format("Invalid entity with id: %s", ex.getId());
+        HttpStatus status = HttpStatus.NOT_FOUND;
+        ErrorDto error = generateError(message, status);
+        return new ResponseEntity<>(error, status);
+    }
+
+    @ExceptionHandler(CustomException.class)
+    public ResponseEntity<ErrorDto> handleCustomException(CustomException ex) {
+        ex.printStackTrace();
+        String message = ex.getMessage();
         HttpStatus status = HttpStatus.NOT_FOUND;
         ErrorDto error = generateError(message, status);
         return new ResponseEntity<>(error, status);

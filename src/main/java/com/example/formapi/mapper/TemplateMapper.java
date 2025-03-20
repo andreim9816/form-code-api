@@ -7,6 +7,7 @@ import com.example.formapi.dto.TemplateDto;
 import com.example.formapi.dto.input.ReqSectionDto;
 import com.example.formapi.dto.input.ReqSectionFieldDto;
 import com.example.formapi.dto.input.ReqTemplateDto;
+import com.example.formapi.exception.CustomException;
 import com.example.formapi.repository.application.CompanyRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -56,6 +57,9 @@ public class TemplateMapper {
             sections.add(section);
         }
         template.setSections(sections);
+        if (!template.getSections().getLast().isValidation()) {
+            throw new CustomException("Last section is not a validation one");
+        }
 
         return template;
     }

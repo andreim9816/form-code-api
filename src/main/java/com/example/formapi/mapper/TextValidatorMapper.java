@@ -9,6 +9,9 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class TextValidatorMapper {
     public TextValidator toEntity(TextValidatorDto dto) {
+        if (dto == null) {
+            return null;
+        }
         return TextValidator.builder()
                 .id(dto.getId())
                 .isRequired(dto.isRequired())

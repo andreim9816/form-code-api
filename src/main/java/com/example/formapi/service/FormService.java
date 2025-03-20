@@ -43,10 +43,10 @@ public class FormService {
         Form form = new Form();
         form.setCreatedDate(LocalDate.now());
         form.setTemplate(template);
-        form.setCreatedUser(webSecuritySupport.getUser());
+        form.setCurrentUser(webSecuritySupport.getUser());
         //todo delete
-        if (form.getCreatedUser() == null) {
-            form.setCreatedUser(userService.loadUserByUsername("user3"));
+        if (form.getCurrentUser() == null) {
+            form.setCurrentUser(userService.loadUserByUsername("user3"));
         }
         for (Section section : template.getSections()) {
             FormSection formSection = createFormSectionFromSection(form, section);
@@ -78,6 +78,7 @@ public class FormService {
                 return formSection;
             }
         }
+        //todo add this validation at template creation!!
         throw new RuntimeException("Please add at least one validation section");
     }
 }

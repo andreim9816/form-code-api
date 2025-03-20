@@ -9,6 +9,9 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class DateValidatorMapper {
     public DateValidator toEntity(DateValidatorDto dto) {
+        if (dto == null) {
+            return null;
+        }
         return DateValidator.builder()
                 .id(dto.getId())
                 .isRequired(dto.isRequired())

@@ -43,7 +43,7 @@ public class Form {
     @ToString.Exclude
     @ManyToOne
     @JoinColumn(name = "FK_USER_ID")
-    private User createdUser;
+    private User currentUser;
 
     @ToString.Exclude
     @OneToMany(mappedBy = "form", cascade = CascadeType.ALL, orphanRemoval = true)

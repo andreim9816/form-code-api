@@ -9,6 +9,9 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class NumberValidatorMapper {
     public NumberValidator toEntity(NumberValidatorDto dto) {
+        if (dto == null) {
+            return null;
+        }
         return NumberValidator.builder()
                 .id(dto.getId())
                 .isRequired(dto.isRequired())
