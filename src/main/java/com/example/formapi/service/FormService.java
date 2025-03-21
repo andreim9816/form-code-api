@@ -72,6 +72,16 @@ public class FormService {
         return formSection;
     }
 
+    public User getNextUser(Form form) {
+        if (form.getCurrentSection().getId().equals(form.getCurrentValidationSection().getId())) {
+            // if validation is the same as current section, then the current user was ANAF and the next one should be the user
+            return form.getCurrentUser();
+        } else {
+
+        }
+        return null;
+    }
+
     private FormSection getFirstValidationSection(Form form) {
         for (FormSection formSection : form.getFormSections()) {
             if (formSection.getSection().isValidation()) {
