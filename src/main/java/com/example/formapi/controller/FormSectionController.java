@@ -4,7 +4,6 @@ import com.example.formapi.dto.FormSectionDto;
 import com.example.formapi.dto.input.ReqFormDto;
 import com.example.formapi.mapper.FormSectionMapper;
 import com.example.formapi.service.FormSectionService;
-import jakarta.servlet.ServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -24,7 +23,7 @@ public class FormSectionController {
     private final FormSectionMapper formSectionMapper;
 
     @PatchMapping
-    public List<FormSectionDto> updateForm(@RequestBody ReqFormDto formDto, ServletRequest servletRequest) {
+    public List<FormSectionDto> updateForm(@RequestBody ReqFormDto formDto) {
         return formSectionService.update(formDto.getFormSections()).stream()
                 .map(formSectionMapper::toDto)
                 .collect(toList());

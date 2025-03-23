@@ -19,6 +19,8 @@ public class FormMapper {
         formDto.setFinishedDate(form.getFinishedDate());
         formDto.setCurrentValidationSectionId(form.getCurrentValidationSection().getId());
         formDto.setCurrentSectionId(form.getCurrentSection().getId());
+        formDto.setCurrentUserId(form.getCurrentUser().getId());
+        formDto.setCreatorUserId(form.getCreatorUser().getId());
         formDto.setFormSections(form.getFormSections().stream().map(formSectionMapper::toDto).collect(toList()));
         return formDto;
     }

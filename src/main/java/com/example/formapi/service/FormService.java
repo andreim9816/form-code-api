@@ -1,8 +1,10 @@
 package com.example.formapi.service;
 
 import com.example.formapi.domain.application.*;
+import com.example.formapi.exception.CustomException;
 import com.example.formapi.exception.InvalidEntityException;
 import com.example.formapi.repository.application.FormRepository;
+import com.example.formapi.repository.application.UserRepository;
 import com.example.formapi.security.WebSecuritySupport;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -20,6 +22,7 @@ public class FormService {
     private final UserService userService;
     private final FormSectionFieldService formSectionFieldService;
     private final FormRepository formRepository;
+    private final UserRepository userRepository;
     private final WebSecuritySupport webSecuritySupport;
 
     public List<Form> findALl() {
@@ -42,20 +45,20 @@ public class FormService {
     public Form createForm(Template template) {
         Form form = new Form();
         form.setCreatedDate(LocalDate.now());
+
         form.setTemplate(template);
         form.setCurrentUser(webSecuritySupport.getUser());
-        //todo delete
-        if (form.getCurrentUser() == null) {
-            form.setCurrentUser(userService.loadUserByUsername("user3"));
-        }
+        form.setCreatorUser(webSecuritySupport.getUser());
+
         for (Section section : template.getSections()) {
             FormSection formSection = createFormSectionFromSection(form, section);
             form.getFormSections().add(formSection);
         }
-        // first section to complete is the first Section
-        form.setCurrentSection(form.getFormSections().getFirst());
+
         // the first Section with the boolean isValidation=true
         form.setCurrentValidationSection(getFirstValidationSection(form));
+        // first section to complete is the first Section
+        form.setCurrentSection(form.getFormSections().getFirst());
 
         return formRepository.save(form);
     }
@@ -73,13 +76,17 @@ public class FormService {
     }
 
     public User getNextUser(Form form) {
-        if (form.getCurrentSection().getId().equals(form.getCurrentValidationSection().getId())) {
-            // if validation is the same as current section, then the current user was ANAF and the next one should be the user
-            return form.getCurrentUser();
+        if (currentUserWasSimpleUser(form)) {
+            List<User> complianceUsers = userRepository.findAllComplianceUsersForCompany(form.getTemplate().getCompany().getId());
+            if (complianceUsers.isEmpty()) {
+                throw new CustomException("No compliance users found");
+            }
+            //todo
+            return complianceUsers.get(0);
         } else {
-
+            // if validation is the same as current section, then the current user was ANAF and the next one should be the user
+            return form.getCreatorUser();
         }
-        return null;
     }
 
     private FormSection getFirstValidationSection(Form form) {
@@ -88,7 +95,13 @@ public class FormService {
                 return formSection;
             }
         }
-        //todo add this validation at template creation!!
-        throw new RuntimeException("Please add at least one validation section");
+        throw new CustomException("Couldn't find the next validation section");
+    }
+
+    public boolean currentUserWasSimpleUser(Form form) {
+        Long currentSectionId = form.getCurrentSection().getId();
+        Long currentValidationSectionId = form.getCurrentValidationSection().getId();
+
+        return currentSectionId < currentValidationSectionId;
     }
 }

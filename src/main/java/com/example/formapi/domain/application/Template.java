@@ -29,7 +29,7 @@ public class Template {
 
     @ToString.Exclude
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "FK_USER_ID")
+    @JoinColumn(name = "FK_CREATOR_USER_ID")
     private User creatorUser;
 
     @ToString.Exclude

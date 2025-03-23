@@ -58,7 +58,7 @@ public class TemplateMapper {
         }
         template.setSections(sections);
         if (!template.getSections().getLast().isValidation()) {
-            throw new CustomException("Last section is not a validation one");
+            throw new CustomException("Last section should be a validation one");
         }
 
         return template;

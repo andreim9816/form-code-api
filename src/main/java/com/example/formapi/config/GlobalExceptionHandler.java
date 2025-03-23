@@ -26,7 +26,7 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ErrorDto> handleCustomException(CustomException ex) {
         ex.printStackTrace();
         String message = ex.getMessage();
-        HttpStatus status = HttpStatus.NOT_FOUND;
+        HttpStatus status = HttpStatus.BAD_REQUEST;
         ErrorDto error = generateError(message, status);
         return new ResponseEntity<>(error, status);
     }

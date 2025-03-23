@@ -5,6 +5,7 @@ import com.example.formapi.dto.CompanyRoleDto;
 import com.example.formapi.dto.SectionDto;
 import com.example.formapi.dto.SectionLiteDto;
 import com.example.formapi.dto.input.ReqSectionDto;
+import com.example.formapi.exception.CustomException;
 import com.example.formapi.service.CompanyRoleService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -23,6 +24,9 @@ public class SectionMapper {
         var section = new Section();
         section.setTitle(sectionDto.getTitle());
         section.setValidation(sectionDto.isValidation());
+        if (!section.isValidation() && sectionDto.getCompanyRoles().isEmpty()) {
+            throw new CustomException("Sections must have at least one validation company role");
+        }
         section.setCompanyRoles(sectionDto.getCompanyRoles().stream()
                 .map(CompanyRoleDto::getId)
                 .map(companyRoleService::findById)

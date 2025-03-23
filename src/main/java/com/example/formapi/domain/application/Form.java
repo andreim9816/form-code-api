@@ -42,8 +42,13 @@ public class Form {
 
     @ToString.Exclude
     @ManyToOne
-    @JoinColumn(name = "FK_USER_ID")
+    @JoinColumn(name = "FK_CURRENT_USER_ID")
     private User currentUser;
+
+    @ToString.Exclude
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "FK_CREATOR_USER_ID")
+    private User creatorUser;
 
     @ToString.Exclude
     @OneToMany(mappedBy = "form", cascade = CascadeType.ALL, orphanRemoval = true)
