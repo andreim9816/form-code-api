@@ -12,5 +12,6 @@ public class SectionDto {
     @JsonProperty("isValidation")
     private boolean isValidation;
     private Long templateId;
+    private List<CompanyRoleDto> companyRoles;
     private List<SectionFieldDto> sectionFields;
 }

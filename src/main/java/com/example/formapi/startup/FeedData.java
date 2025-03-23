@@ -100,7 +100,7 @@ public class FeedData implements CommandLineRunner {
                 .build();
 
         User user5 = User.builder()
-                .email("user4@gmail.com")
+                .email("user5@gmail.com")
                 .firstname("firstname 5")
                 .lastname("lastname 5")
                 .username("user5")

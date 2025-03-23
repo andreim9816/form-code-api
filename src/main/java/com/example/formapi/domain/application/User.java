@@ -65,21 +65,6 @@ public class User implements UserDetails {
     }
 
     public static String convertUserTypeToString(UserType userType) {
-        String role = null;
-        switch (userType) {
-            case ADMIN -> {
-                role = "ROLE_ADMIN";
-            }
-            case COMPANY_ADMIN -> {
-                role = "ROLE_COMPANY_MANAGER";
-            }
-            case COMPLIANCE -> {
-                role = "ROLE_COMPLIANCE";
-            }
-            case USER -> {
-                role = "ROLE_USER";
-            }
-        }
-        return role;
+        return "ROLE_" + userType.name();
     }
 }
