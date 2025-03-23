@@ -28,4 +28,11 @@ public class FormSectionController {
                 .map(formSectionMapper::toDto)
                 .collect(toList());
     }
+
+    @PatchMapping("/reject")
+    public List<FormSectionDto> rejectForm(@RequestBody ReqFormDto formDto) {
+        return formSectionService.rejectForm(formDto.getFormSections()).stream()
+                .map(formSectionMapper::toDto)
+                .collect(toList());
+    }
 }

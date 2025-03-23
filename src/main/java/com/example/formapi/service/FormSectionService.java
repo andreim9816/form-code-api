@@ -8,6 +8,7 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import static java.util.stream.Collectors.toList;
@@ -24,6 +25,7 @@ public class FormSectionService {
         return formSectionRepository.findById(id).orElse(null);
     }
 
+    // @Transactional also saves in db
     @Transactional
     public List<FormSection> update(List<FormSectionDto> formSections) {
         List<FormSection> updatedFormSections = formSections.stream()
@@ -31,6 +33,18 @@ public class FormSectionService {
                 .collect(toList());
 
         updateNextSectionAndUser(updatedFormSections.getFirst().getForm());
+
+        return updatedFormSections;
+    }
+
+    // @Transactional also saves in db
+    @Transactional
+    public List<FormSection> rejectForm(List<FormSectionDto> formSections) {
+        List<FormSection> updatedFormSections = formSections.stream()
+                .map(this::update)
+                .collect(toList());
+
+        sendBackToPreviousSection(updatedFormSections.getFirst().getForm());
 
         return updatedFormSections;
     }
@@ -56,6 +70,7 @@ public class FormSectionService {
             // we need to check if the form was not completed yet
             if (form.getCurrentValidationSection().getId().equals(form.getFormSections().getLast().getId())) {
                 // the form is finished
+                form.setFinishedDate(LocalDate.now());
                 form.setCurrentUser(null);
                 form.setCurrentValidationSection(null);
                 form.setCurrentSection(null);
@@ -74,5 +89,14 @@ public class FormSectionService {
                 form.setCurrentValidationSection(nextValidationFormSection);
             }
         }
+    }
+
+    public void sendBackToPreviousSection(Form form) {
+        FormSection previousSection = form.getFormSections().stream()
+                .filter(formSection -> formSection.getId() < form.getCurrentValidationSection().getId())
+                .reduce((first, second) -> second)
+                .orElse(null);
+        form.setCurrentSection(previousSection);
+        form.setCurrentUser(form.getCreatorUser());
     }
 }

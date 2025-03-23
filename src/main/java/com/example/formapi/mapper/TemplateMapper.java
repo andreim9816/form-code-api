@@ -30,7 +30,7 @@ public class TemplateMapper {
         dto.setTitle(template.getTitle());
         dto.setDescription(template.getDescription());
         dto.setCompanyId(template.getCompany().getId());
-        dto.setCreatorUserId(template.getCreatorUser() != null ? template.getCreatorUser().getId() : null); //todo
+        dto.setCreatorUserId(template.getCreatorUser() != null ? template.getCreatorUser().getId() : null);
         dto.setSections(template.getSections().stream().map(sectionMapper::toDto).collect(Collectors.toList()));
         return dto;
     }
