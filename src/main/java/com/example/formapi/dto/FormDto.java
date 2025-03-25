@@ -12,8 +12,8 @@ public class FormDto {
     private LocalDate finishedDate;
     private Long currentValidationSectionId;
     private Long currentSectionId;
-    //    private Long templateId;
     private Long currentUserId;
     private Long creatorUserId;
+    private TemplateDto template;
     private List<FormSectionDto> formSections;
 }
