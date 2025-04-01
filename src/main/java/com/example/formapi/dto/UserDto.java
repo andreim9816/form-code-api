@@ -18,4 +18,6 @@ public class UserDto {
     private String email;
     private String phoneNumber;
     private List<UserType> userTypes;
+    private List<CompanyDto> companies;
+    private List<CompanyRoleDto> companyRoles;
 }

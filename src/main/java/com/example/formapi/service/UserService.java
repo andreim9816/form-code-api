@@ -3,12 +3,15 @@ package com.example.formapi.service;
 import com.example.formapi.domain.application.User;
 import com.example.formapi.dto.input.ReqUserDto;
 import com.example.formapi.exception.CustomException;
+import com.example.formapi.exception.InvalidEntityException;
 import com.example.formapi.mapper.UserMapper;
 import com.example.formapi.repository.application.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -17,10 +20,23 @@ public class UserService implements UserDetailsService {
     private final UserRepository userRepository;
     private final UserMapper userMapper;
 
+    public List<User> findAll() {
+        return userRepository.findAll();
+    }
+
+    public User findById(Long id) {
+        return userRepository.findById(id)
+                .orElseThrow(() -> new InvalidEntityException("Invalid user id"));
+    }
+
+    public void delete(User user) {
+        userRepository.delete(user);
+    }
+
     @Override
     public User loadUserByUsername(String username) throws UsernameNotFoundException {
         return userRepository.findByUsername(username)
-                .orElseThrow(() -> new UsernameNotFoundException("User Not Found with username: " + username));
+                .orElseThrow(() -> new UsernameNotFoundException("User not found with username: " + username));
     }
 
     public User registerUser(ReqUserDto userDto) {

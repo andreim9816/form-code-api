@@ -16,6 +16,8 @@ import java.util.List;
 public class UserMapper {
 
     private final PasswordEncoder passwordEncoder;
+    private final CompanyRoleMapper companyRoleMapper;
+    private final CompanyMapper companyMapper;
 
     public UserDto toDto(User user) {
         return UserDto.builder()
@@ -26,6 +28,8 @@ public class UserMapper {
                 .email(user.getEmail())
                 .phoneNumber(user.getPhoneNumber())
                 .userTypes(user.getUserTypes())
+                .companies(user.getCompanies().stream().map(companyMapper::toDto).toList())
+                .companyRoles(user.getCompanyRoles().stream().map(companyRoleMapper::toDto).toList())
                 .build();
     }
 
