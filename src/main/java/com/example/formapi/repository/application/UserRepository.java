@@ -3,6 +3,7 @@ package com.example.formapi.repository.application;
 import com.example.formapi.domain.application.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -20,7 +21,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
     @Query("""
             select usr from User usr join usr.companies company
             where company.id = :companyId
-            and usr.userType = com.example.formapi.domain.enumeration.UserType.COMPLIANCE
+            and com.example.formapi.domain.enumeration.UserType.COMPLIANCE member of usr.userTypes
             """)
-    List<User> findAllComplianceUsersForCompany(Long companyId);
+    List<User> findAllComplianceUsersForCompany(@Param("companyId") Long companyId);
 }

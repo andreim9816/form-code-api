@@ -33,8 +33,8 @@ public class FeedData implements CommandLineRunner {
         List<CompanyRole> companyRoles2 = addRolesToCompany(companies.get(1), List.of("Rol 1", "Rol 2", "Rol 3"));
         List<User> users = addUsers();
 
-        addUserToCompany(users.get(2), companies.get(0));
-        addUserToCompany(users.get(3), companies.get(1));
+        addUserToCompany(users.get(1), companies.get(0));
+        addUserToCompany(users.get(1), companies.get(1));
 
         addCompanyRolesToComplianceUsers(users.get(2), companyRoles1);
         addCompanyRolesToComplianceUsers(users.get(3), companyRoles2);
@@ -69,7 +69,7 @@ public class FeedData implements CommandLineRunner {
                 .lastname("lastname 1")
                 .username("user1")
                 .password(passwordEncoder.encode("password1"))
-                .userType(UserType.ADMIN)
+                .userTypes(List.of(UserType.ADMIN))
                 .build();
 
         User user2 = User.builder()
@@ -78,7 +78,7 @@ public class FeedData implements CommandLineRunner {
                 .lastname("lastname 2")
                 .username("user2")
                 .password(passwordEncoder.encode("password2"))
-                .userType(UserType.COMPANY_ADMIN)
+                .userTypes(List.of(UserType.COMPANY_ADMIN))
                 .build();
 
         User user3 = User.builder()
@@ -87,7 +87,7 @@ public class FeedData implements CommandLineRunner {
                 .lastname("lastname 3")
                 .username("user3")
                 .password(passwordEncoder.encode("password3"))
-                .userType(UserType.COMPLIANCE)
+                .userTypes(List.of(UserType.COMPLIANCE))
                 .build();
 
         User user4 = User.builder()
@@ -96,7 +96,7 @@ public class FeedData implements CommandLineRunner {
                 .lastname("lastname 4")
                 .username("user4")
                 .password(passwordEncoder.encode("password4"))
-                .userType(UserType.COMPLIANCE)
+                .userTypes(List.of(UserType.COMPLIANCE))
                 .build();
 
         User user5 = User.builder()
@@ -105,7 +105,7 @@ public class FeedData implements CommandLineRunner {
                 .lastname("lastname 5")
                 .username("user5")
                 .password(passwordEncoder.encode("password5"))
-                .userType(UserType.USER)
+                .userTypes(List.of(UserType.USER))
                 .build();
         return userRepository.saveAll(List.of(user1, user2, user3, user4, user5));
     }
@@ -116,7 +116,7 @@ public class FeedData implements CommandLineRunner {
     }
 
     private Company addUserToCompany(User user, Company company) {
-        company.getUsers().add(user);
+        company.getAdminUsers().add(user);
         return companyRepository.save(company);
     }
 }

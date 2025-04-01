@@ -1,6 +1,7 @@
 package com.example.formapi.service;
 
 import com.example.formapi.domain.application.User;
+import com.example.formapi.dto.input.ReqUserDto;
 import com.example.formapi.exception.CustomException;
 import com.example.formapi.repository.application.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -20,6 +21,10 @@ public class UserService implements UserDetailsService {
     public User loadUserByUsername(String username) throws UsernameNotFoundException {
         return userRepository.findByUsername(username)
                 .orElseThrow(() -> new UsernameNotFoundException("User Not Found with username: " + username));
+    }
+
+    public User updateUser(ReqUserDto user) {
+        return null;
     }
 
 //    public User registerUser(RegisterDto body) throws CustomException {

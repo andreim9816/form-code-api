@@ -32,5 +32,5 @@ public class Company {
             joinColumns = @JoinColumn(name = "company_id"),
             inverseJoinColumns = @JoinColumn(name = "user_id")
     )
-    private List<User> users = new ArrayList<>();
+    private List<User> adminUsers = new ArrayList<>();
 }

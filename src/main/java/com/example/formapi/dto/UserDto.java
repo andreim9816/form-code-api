@@ -4,6 +4,8 @@ import com.example.formapi.domain.enumeration.UserType;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.*;
 
+import java.util.List;
+
 @Getter
 @Setter
 @NoArgsConstructor
@@ -15,5 +17,5 @@ public class UserDto {
     private String phoneNumber;
     private String email;
     @JsonFormat(shape = JsonFormat.Shape.NUMBER)
-    private UserType userType;
+    private List<UserType> userTypes;
 }

@@ -19,7 +19,7 @@ public class CompanyRole {
     private String name;
 
     @ToString.Exclude
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "FK_COMPANY_ID")
     private Company company;
 

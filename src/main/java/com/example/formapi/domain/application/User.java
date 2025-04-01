@@ -28,6 +28,8 @@ public class User implements UserDetails {
 
     private String password;
 
+    private String cnp;
+
     private String firstname;
 
     private String lastname;
@@ -36,11 +38,14 @@ public class User implements UserDetails {
 
     private String phoneNumber;
 
+    @ElementCollection(targetClass = UserType.class)
+    @CollectionTable(name = "user_user_types", joinColumns = @JoinColumn(name = "user_id"))
     @Enumerated(EnumType.STRING)
-    private UserType userType;
+    @Column(name = "USER_TYPE")
+    private List<UserType> userTypes;
 
-    @ManyToMany(mappedBy = "users")
-    private List<Company> companies = new ArrayList<>();
+    @ManyToMany(mappedBy = "adminUsers")
+    private List<Company> companies = new ArrayList<>(); // companies where this user is COMPANY_ADMIN
 
     @ManyToMany
     @JoinTable(
@@ -60,8 +65,10 @@ public class User implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        GrantedAuthority authority = new SimpleGrantedAuthority(convertUserTypeToString(userType));
-        return List.of(authority);
+        return getUserTypes().stream()
+                .map(User::convertUserTypeToString)
+                .map(SimpleGrantedAuthority::new)
+                .toList();
     }
 
     public static String convertUserTypeToString(UserType userType) {

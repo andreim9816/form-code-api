@@ -60,7 +60,7 @@ public class JwtService {
                 .withClaim(ID_KEY, user.getId())
                 .withClaim(USERNAME_KEY, user.getUsername())
                 .withClaim(ROLES_KEY, user.getCompanyRoles().stream().map(CompanyRole::getName).toList())
-                .withClaim(USER_TYPE_KEY, user.getUserType().name())
+                .withClaim(USER_TYPE_KEY, user.getUserTypes().stream().map(Enum::name).toList())
                 .withExpiresAt(Instant.now().plus(TOKEN_TTL, ChronoUnit.MINUTES))
                 .sign(algorithm);
     }
