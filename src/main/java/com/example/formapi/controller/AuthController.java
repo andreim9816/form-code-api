@@ -3,6 +3,8 @@ package com.example.formapi.controller;
 import com.example.formapi.domain.application.User;
 import com.example.formapi.dto.LoginDto;
 import com.example.formapi.dto.UserDto;
+import com.example.formapi.dto.input.ReqUserDto;
+import com.example.formapi.exception.CustomException;
 import com.example.formapi.mapper.UserMapper;
 import com.example.formapi.security.JwtService;
 import com.example.formapi.security.WebSecuritySupport;
@@ -57,13 +59,13 @@ public class AuthController {
                 .body(userMapper.toDto(user));
     }
 
-//    @PostMapping("/register")
-//    public ResponseEntity<User> register(@Valid @RequestBody RegisterDto body) throws CustomException {
-//        User newUser = userService.registerUser(body);
-//
-//        return ResponseEntity.ok()
-//                .body(newUser);
-//    }
+    @PostMapping("/register")
+    public ResponseEntity<UserDto> register(@Valid @RequestBody ReqUserDto body) throws CustomException {
+        User newUser = userService.registerUser(body);
+
+        return ResponseEntity.ok()
+                .body(userMapper.toDto(newUser));
+    }
 
     @PostMapping("/logout")
     public ResponseEntity<?> logout() {

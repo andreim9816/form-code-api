@@ -3,11 +3,11 @@ package com.example.formapi.service;
 import com.example.formapi.domain.application.User;
 import com.example.formapi.dto.input.ReqUserDto;
 import com.example.formapi.exception.CustomException;
+import com.example.formapi.mapper.UserMapper;
 import com.example.formapi.repository.application.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -15,7 +15,7 @@ import org.springframework.stereotype.Service;
 public class UserService implements UserDetailsService {
 
     private final UserRepository userRepository;
-    private final PasswordEncoder passwordEncoder;
+    private final UserMapper userMapper;
 
     @Override
     public User loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -23,8 +23,14 @@ public class UserService implements UserDetailsService {
                 .orElseThrow(() -> new UsernameNotFoundException("User Not Found with username: " + username));
     }
 
-    public User updateUser(ReqUserDto user) {
-        return null;
+    public User registerUser(ReqUserDto userDto) {
+        isUsernameUnique(userDto.getUsername());
+        isEmailUnique(userDto.getEmail());
+        isPhoneUnique(userDto.getPhoneNumber());
+
+        User entity = userMapper.toEntity(userDto);
+
+        return userRepository.save(entity);
     }
 
 //    public User registerUser(RegisterDto body) throws CustomException {

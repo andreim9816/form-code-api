@@ -1,7 +1,6 @@
 package com.example.formapi.dto;
 
 import com.example.formapi.domain.enumeration.UserType;
-import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.*;
 
 import java.util.List;
@@ -14,8 +13,9 @@ import java.util.List;
 public class UserDto {
     private Long id;
     private String username;
-    private String phoneNumber;
+    private String firstname;
+    private String lastname;
     private String email;
-    @JsonFormat(shape = JsonFormat.Shape.NUMBER)
+    private String phoneNumber;
     private List<UserType> userTypes;
 }

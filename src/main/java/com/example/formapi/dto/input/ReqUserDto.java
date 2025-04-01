@@ -1,9 +1,6 @@
 package com.example.formapi.dto.input;
 
-import com.example.formapi.domain.enumeration.UserType;
 import lombok.Data;
-
-import java.util.List;
 
 @Data
 public class ReqUserDto {
@@ -12,6 +9,8 @@ public class ReqUserDto {
 
     private String password;
 
+    private String cnp;
+
     private String firstname;
 
     private String lastname;
@@ -19,10 +18,4 @@ public class ReqUserDto {
     private String email;
 
     private String phoneNumber;
-
-    private List<UserType> userTypes;
-
-    private List<Long> companyIds;
-
-    private List<Long> companyRoleIds;
 }
