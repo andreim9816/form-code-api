@@ -19,9 +19,9 @@ public interface UserRepository extends JpaRepository<User, Long> {
     Optional<User> findByPhoneNumber(String phoneNumber);
 
     @Query("""
-            select usr from User usr join usr.companies company
-            where company.id = :companyId
-            and com.example.formapi.domain.enumeration.UserType.COMPLIANCE member of usr.userTypes
+            select usr from User usr
+            join usr.companyRoles companyRoles
+            where companyRoles.id in :companyRoleIds
             """)
-    List<User> findAllComplianceUsersForCompany(@Param("companyId") Long companyId);
+    List<User> findUsersByCompanyRoles(@Param("companyRoleIds") List<Long> companyRoleIds);
 }

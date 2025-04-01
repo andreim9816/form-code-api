@@ -75,9 +75,11 @@ public class FormService {
         return formSection;
     }
 
-    public User getNextUser(Form form) {
+    public User getNextUser(Form form, FormSection currentFormSection) {
         if (currentUserWasSimpleUser(form)) {
-            List<User> complianceUsers = userRepository.findAllComplianceUsersForCompany(form.getTemplate().getCompany().getId());
+            List<User> complianceUsers = userRepository.findUsersByCompanyRoles(
+                    currentFormSection.getSection().getCompanyRoles().stream().map(CompanyRole::getId).toList()
+            );
             if (complianceUsers.isEmpty()) {
                 throw new CustomException("No compliance users found");
             }

@@ -7,6 +7,7 @@ import com.example.formapi.domain.enumeration.UserType;
 import com.example.formapi.repository.application.CompanyRepository;
 import com.example.formapi.repository.application.CompanyRoleRepository;
 import com.example.formapi.repository.application.UserRepository;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Profile;
@@ -27,17 +28,20 @@ public class FeedData implements CommandLineRunner {
     private final PasswordEncoder passwordEncoder;
 
     @Override
+    @Transactional
     public void run(String... args) throws Exception {
         List<Company> companies = addCompanies();
-        List<CompanyRole> companyRoles1 = addRolesToCompany(companies.get(0), List.of("Inspector grad 1", "Inspector grad 2"));
-        List<CompanyRole> companyRoles2 = addRolesToCompany(companies.get(1), List.of("Rol 1", "Rol 2", "Rol 3"));
+        List<CompanyRole> companyRoles1 = addRolesToCompany(companies.get(0), new ArrayList<>(List.of("Inspector grad 1", "Inspector grad 2")));
+        List<CompanyRole> companyRoles2 = addRolesToCompany(companies.get(1), new ArrayList<>(List.of("Rol 1", "Rol 2", "Rol 3")));
         List<User> users = addUsers();
 
-        addUserToCompany(users.get(1), companies.get(0));
-        addUserToCompany(users.get(1), companies.get(1));
+        addUserAdminToCompany(users.get(1), companies.get(0));
+        addUserAdminToCompany(users.get(3), companies.get(1));
 
-        addCompanyRolesToComplianceUsers(users.get(2), companyRoles1);
+        addCompanyRolesToComplianceUsers(users.get(1), companyRoles1);
+        addCompanyRolesToComplianceUsers(users.get(2), new ArrayList<>(companyRoles1.subList(0, 1)));
         addCompanyRolesToComplianceUsers(users.get(3), companyRoles2);
+        addCompanyRolesToComplianceUsers(users.get(4), new ArrayList<>(companyRoles2.subList(0, 2)));
 
     }
 
@@ -69,7 +73,7 @@ public class FeedData implements CommandLineRunner {
                 .lastname("lastname 1")
                 .username("user1")
                 .password(passwordEncoder.encode("password1"))
-                .userTypes(List.of(UserType.ADMIN))
+                .userTypes(new ArrayList<>(List.of(UserType.ADMIN, UserType.USER)))
                 .build();
 
         User user2 = User.builder()
@@ -78,7 +82,7 @@ public class FeedData implements CommandLineRunner {
                 .lastname("lastname 2")
                 .username("user2")
                 .password(passwordEncoder.encode("password2"))
-                .userTypes(List.of(UserType.COMPANY_ADMIN))
+                .userTypes(new ArrayList<>(List.of(UserType.USER)))
                 .build();
 
         User user3 = User.builder()
@@ -87,7 +91,7 @@ public class FeedData implements CommandLineRunner {
                 .lastname("lastname 3")
                 .username("user3")
                 .password(passwordEncoder.encode("password3"))
-                .userTypes(List.of(UserType.COMPLIANCE))
+                .userTypes(new ArrayList<>(List.of(UserType.USER)))
                 .build();
 
         User user4 = User.builder()
@@ -96,7 +100,7 @@ public class FeedData implements CommandLineRunner {
                 .lastname("lastname 4")
                 .username("user4")
                 .password(passwordEncoder.encode("password4"))
-                .userTypes(List.of(UserType.COMPLIANCE))
+                .userTypes(new ArrayList<>(List.of(UserType.USER)))
                 .build();
 
         User user5 = User.builder()
@@ -105,7 +109,7 @@ public class FeedData implements CommandLineRunner {
                 .lastname("lastname 5")
                 .username("user5")
                 .password(passwordEncoder.encode("password5"))
-                .userTypes(List.of(UserType.USER))
+                .userTypes(new ArrayList<>(List.of(UserType.USER)))
                 .build();
         return userRepository.saveAll(List.of(user1, user2, user3, user4, user5));
     }
@@ -115,7 +119,7 @@ public class FeedData implements CommandLineRunner {
         return userRepository.save(user);
     }
 
-    private Company addUserToCompany(User user, Company company) {
+    private Company addUserAdminToCompany(User user, Company company) {
         company.getAdminUsers().add(user);
         return companyRepository.save(company);
     }

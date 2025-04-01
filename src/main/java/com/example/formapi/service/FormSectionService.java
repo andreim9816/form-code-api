@@ -61,11 +61,12 @@ public class FormSectionService {
     public void updateNextSectionAndUser(Form form) {
         if (formService.currentUserWasSimpleUser(form)) {
             // current user is a simple one, so the next must be a COMPLIANCE ONE
-            form.setCurrentUser(formService.getNextUser(form));
+            var currentFormSection = form.getCurrentSection();
+            form.setCurrentUser(formService.getNextUser(form, currentFormSection));
             form.setCurrentSection(form.getCurrentValidationSection());
             //validation stays the same
         } else {
-            // current user was a compliance one, so we need to get to the next validation sections
+            // current user was a compliance one, so we need to get to the next validation sections. The next user is the initial user
 
             // we need to check if the form was not completed yet
             if (form.getCurrentValidationSection().getId().equals(form.getFormSections().getLast().getId())) {
@@ -76,7 +77,7 @@ public class FormSectionService {
                 form.setCurrentSection(null);
             } else {
                 // else go to the next section after the validation one
-                form.setCurrentUser(formService.getNextUser(form));
+                form.setCurrentUser(form.getCreatorUser());
                 FormSection nextFormSection = form.getFormSections().stream()
                         .filter(formSection -> formSection.getId() > form.getCurrentValidationSection().getId())
                         .findFirst().get();
