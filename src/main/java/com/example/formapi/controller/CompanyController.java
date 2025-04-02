@@ -31,6 +31,11 @@ public class CompanyController {
     private final CompanyMapper companyMapper;
     private final CompanyService companyService;
 
+    @GetMapping
+    public List<CompanyDto> getCompanies() {
+        return companyService.findAll().stream().map(companyMapper::toDto).toList();
+    }
+
     @GetMapping("/{companyId}/roles")
     public List<CompanyRoleDto> getRolesForCompanyId(@PathVariable("companyId") Long companyId) {
         return companyRoleRepository.getCompanyRoleByCompany_Id(companyId).stream()

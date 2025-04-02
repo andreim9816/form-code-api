@@ -17,6 +17,10 @@ public class CompanyService {
     private final CompanyRepository companyRepository;
     private final CompanyMapper companyMapper;
 
+    public List<Company> findAll() {
+        return companyRepository.findAll();
+    }
+
     public Company createCompany(ReqCompanyDto dto) {
         Company company = new Company();
         company.setName(dto.getName());

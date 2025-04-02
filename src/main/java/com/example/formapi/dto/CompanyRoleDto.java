@@ -6,4 +6,5 @@ import lombok.Data;
 public class CompanyRoleDto {
     private Long id;
     private String name;
+    private Long companyId;
 }

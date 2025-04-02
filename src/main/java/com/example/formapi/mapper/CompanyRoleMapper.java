@@ -13,6 +13,7 @@ public class CompanyRoleMapper {
         CompanyRoleDto dto = new CompanyRoleDto();
         dto.setId(companyRole.getId());
         dto.setName(companyRole.getName());
+        dto.setCompanyId(companyRole.getCompany().getId());
         return dto;
     }
 }
