@@ -10,6 +10,7 @@ public class TemplateDto {
     private String title;
     private String description;
     private Long companyId;
+    private String companyName;
     private Long creatorUserId;
     private List<SectionDto> sections;
 }

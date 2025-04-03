@@ -38,7 +38,7 @@ public class User implements UserDetails {
 
     private String phoneNumber;
 
-    @ElementCollection(targetClass = UserType.class)
+    @ElementCollection(targetClass = UserType.class, fetch = FetchType.EAGER)
     @CollectionTable(name = "user_user_types", joinColumns = @JoinColumn(name = "user_id"))
     @Enumerated(EnumType.STRING)
     @Column(name = "USER_TYPE")

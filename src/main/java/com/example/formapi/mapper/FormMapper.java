@@ -12,6 +12,7 @@ import static java.util.stream.Collectors.toList;
 public class FormMapper {
     private final FormSectionMapper formSectionMapper;
     private final TemplateMapper templateMapper;
+    private final UserMapper userMapper;
 
     public FormDto toDto(Form form) {
         FormDto formDto = new FormDto();
@@ -20,8 +21,8 @@ public class FormMapper {
         formDto.setFinishedDate(form.getFinishedDate());
         formDto.setCurrentValidationSectionId(form.getCurrentValidationSection() != null ? form.getCurrentValidationSection().getId() : null);
         formDto.setCurrentSectionId(form.getCurrentSection() != null ? form.getCurrentSection().getId() : null);
-        formDto.setCurrentUserId(form.getCurrentUser() != null ? form.getCurrentUser().getId() : null);
-        formDto.setCreatorUserId(form.getCreatorUser().getId());
+        formDto.setCurrentUser(userMapper.toDto(form.getCurrentUser()));
+        formDto.setCreatorUser(userMapper.toDto(form.getCreatorUser()));
         formDto.setTemplate(templateMapper.toDto(form.getTemplate()));
         formDto.setFormSections(form.getFormSections().stream().map(formSectionMapper::toDto).collect(toList()));
         return formDto;

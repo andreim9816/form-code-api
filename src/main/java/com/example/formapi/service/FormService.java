@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Objects;
 
 import static com.example.formapi.domain.enumeration.FormSectionStatus.IS_VALIDATION_SECTION;
 import static com.example.formapi.domain.enumeration.FormSectionStatus.PENDING_VALIDATION;
@@ -78,8 +79,10 @@ public class FormService {
     public User getNextUser(Form form, FormSection currentFormSection) {
         if (currentUserWasSimpleUser(form)) {
             List<User> complianceUsers = userRepository.findUsersByCompanyRoles(
-                    currentFormSection.getSection().getCompanyRoles().stream().map(CompanyRole::getId).toList()
-            );
+                            currentFormSection.getSection().getCompanyRoles().stream().map(CompanyRole::getId).toList()
+                    ).stream()
+                    .filter(user -> !Objects.equals(user.getId(), webSecuritySupport.getUser().getId()))
+                    .toList();
             if (complianceUsers.isEmpty()) {
                 throw new CustomException("No compliance users found");
             }
