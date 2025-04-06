@@ -27,7 +27,7 @@ public class JwtService {
     public static final String ID_KEY = "id";
     public static final String USERNAME_KEY = "username";
     public static final String ROLES_KEY = "roles";
-    public static final String USER_TYPE_KEY = "userType";
+    public static final String IS_ADMIN_KEY = "userType";
     public static final String COOKIE_KEY = "auth-cookie";
     public static final String API_PATH = "/api";
     private static final int TOKEN_TTL = 60;
@@ -60,7 +60,7 @@ public class JwtService {
                 .withClaim(ID_KEY, user.getId())
                 .withClaim(USERNAME_KEY, user.getUsername())
                 .withClaim(ROLES_KEY, user.getCompanyRoles().stream().map(CompanyRole::getName).toList())
-                .withClaim(USER_TYPE_KEY, user.getUserTypes().stream().map(Enum::name).toList())
+                .withClaim(IS_ADMIN_KEY, user.getIsAdmin())
                 .withExpiresAt(Instant.now().plus(TOKEN_TTL, ChronoUnit.MINUTES))
                 .sign(algorithm);
     }

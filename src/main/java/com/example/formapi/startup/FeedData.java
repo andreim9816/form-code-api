@@ -3,7 +3,6 @@ package com.example.formapi.startup;
 import com.example.formapi.domain.application.Company;
 import com.example.formapi.domain.application.CompanyRole;
 import com.example.formapi.domain.application.User;
-import com.example.formapi.domain.enumeration.UserType;
 import com.example.formapi.repository.application.CompanyRepository;
 import com.example.formapi.repository.application.CompanyRoleRepository;
 import com.example.formapi.repository.application.UserRepository;
@@ -73,7 +72,7 @@ public class FeedData implements CommandLineRunner {
                 .lastname("lastname 1")
                 .username("user1")
                 .password(passwordEncoder.encode("password1"))
-                .userTypes(new ArrayList<>(List.of(UserType.ADMIN, UserType.USER)))
+                .isAdmin(true)
                 .build();
 
         User user2 = User.builder()
@@ -82,7 +81,7 @@ public class FeedData implements CommandLineRunner {
                 .lastname("lastname 2")
                 .username("user2")
                 .password(passwordEncoder.encode("password2"))
-                .userTypes(new ArrayList<>(List.of(UserType.USER)))
+                .isAdmin(false)
                 .build();
 
         User user3 = User.builder()
@@ -91,7 +90,7 @@ public class FeedData implements CommandLineRunner {
                 .lastname("lastname 3")
                 .username("user3")
                 .password(passwordEncoder.encode("password3"))
-                .userTypes(new ArrayList<>(List.of(UserType.USER)))
+                .isAdmin(false)
                 .build();
 
         User user4 = User.builder()
@@ -100,7 +99,7 @@ public class FeedData implements CommandLineRunner {
                 .lastname("lastname 4")
                 .username("user4")
                 .password(passwordEncoder.encode("password4"))
-                .userTypes(new ArrayList<>(List.of(UserType.USER)))
+                .isAdmin(false)
                 .build();
 
         User user5 = User.builder()
@@ -109,7 +108,7 @@ public class FeedData implements CommandLineRunner {
                 .lastname("lastname 5")
                 .username("user5")
                 .password(passwordEncoder.encode("password5"))
-                .userTypes(new ArrayList<>(List.of(UserType.USER)))
+                .isAdmin(false)
                 .build();
         return userRepository.saveAll(List.of(user1, user2, user3, user4, user5));
     }

@@ -1,15 +1,17 @@
 package com.example.formapi.dto;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.List;
 
-@Getter
-@Setter
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
-public class UserDto {
+@Data
+public class UserAdminDto {
     private Long id;
     private String username;
     private String firstname;
@@ -17,6 +19,6 @@ public class UserDto {
     private String email;
     private String phoneNumber;
     private Boolean isAdmin;
-    private List<CompanyDto> companies;
+    private List<Long> companyIds;
     private List<CompanyRoleDto> companyRoles;
 }

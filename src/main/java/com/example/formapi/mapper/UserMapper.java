@@ -1,15 +1,11 @@
 package com.example.formapi.mapper;
 
 import com.example.formapi.domain.application.User;
-import com.example.formapi.domain.enumeration.UserType;
 import com.example.formapi.dto.UserDto;
 import com.example.formapi.dto.input.ReqUserDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @Component
 @RequiredArgsConstructor
@@ -27,7 +23,7 @@ public class UserMapper {
                 .lastname(user.getLastname())
                 .email(user.getEmail())
                 .phoneNumber(user.getPhoneNumber())
-                .userTypes(user.getUserTypes())
+                .isAdmin(user.getIsAdmin())
                 .companies(user.getCompanies().stream().map(companyMapper::toDto).toList())
                 .companyRoles(user.getCompanyRoles().stream().map(companyRoleMapper::toDto).toList())
                 .build();
@@ -42,7 +38,7 @@ public class UserMapper {
                 .lastname(dto.getLastname())
                 .email(dto.getEmail())
                 .phoneNumber(dto.getPhoneNumber())
-                .userTypes(new ArrayList<>(List.of(UserType.ADMIN)))
+                .isAdmin(false)
                 .build();
     }
 }

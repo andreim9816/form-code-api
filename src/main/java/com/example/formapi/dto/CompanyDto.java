@@ -9,4 +9,5 @@ public class CompanyDto {
     private Long id;
     private String name;
     private List<CompanyRoleDto> companyRoles;
+    private List<UserAdminDto> adminUsers;
 }

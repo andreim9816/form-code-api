@@ -1,11 +1,9 @@
 package com.example.formapi.domain.application;
 
 
-import com.example.formapi.domain.enumeration.UserType;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.ArrayList;
@@ -38,11 +36,14 @@ public class User implements UserDetails {
 
     private String phoneNumber;
 
-    @ElementCollection(targetClass = UserType.class, fetch = FetchType.EAGER)
-    @CollectionTable(name = "user_user_types", joinColumns = @JoinColumn(name = "user_id"))
-    @Enumerated(EnumType.STRING)
-    @Column(name = "USER_TYPE")
-    private List<UserType> userTypes;
+//    @ElementCollection(targetClass = UserType.class, fetch = FetchType.EAGER)
+//    @CollectionTable(name = "user_user_types", joinColumns = @JoinColumn(name = "user_id"))
+//    @Enumerated(EnumType.STRING)
+//    @Column(name = "USER_TYPE")
+//    private List<UserType> userTypes;
+
+    @Column(name = "IS_ADMIN")
+    private Boolean isAdmin;
 
     @ManyToMany(mappedBy = "adminUsers")
     private List<Company> companies = new ArrayList<>(); // companies where this user is COMPANY_ADMIN
@@ -65,13 +66,6 @@ public class User implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return getUserTypes().stream()
-                .map(User::convertUserTypeToString)
-                .map(SimpleGrantedAuthority::new)
-                .toList();
-    }
-
-    public static String convertUserTypeToString(UserType userType) {
-        return "ROLE_" + userType.name();
+        return new ArrayList<>();
     }
 }

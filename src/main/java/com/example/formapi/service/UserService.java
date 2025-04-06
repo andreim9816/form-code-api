@@ -1,5 +1,6 @@
 package com.example.formapi.service;
 
+import com.example.formapi.domain.application.CompanyRole;
 import com.example.formapi.domain.application.User;
 import com.example.formapi.dto.input.ReqUserDto;
 import com.example.formapi.exception.CustomException;
@@ -12,11 +13,13 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
 public class UserService implements UserDetailsService {
 
+    private final CompanyRoleService companyRoleService;
     private final UserRepository userRepository;
     private final UserMapper userMapper;
 
@@ -27,6 +30,14 @@ public class UserService implements UserDetailsService {
     public User findById(Long id) {
         return userRepository.findById(id)
                 .orElseThrow(() -> new InvalidEntityException("Invalid user id"));
+    }
+
+    public User updateRoles(User user, List<Long> companyRoleIds) {
+        List<CompanyRole> companyRoles = companyRoleIds.stream()
+                .map(companyRoleService::findById)
+                .collect(Collectors.toList());
+        user.setCompanyRoles(companyRoles);
+        return userRepository.save(user);
     }
 
     public void delete(User user) {
