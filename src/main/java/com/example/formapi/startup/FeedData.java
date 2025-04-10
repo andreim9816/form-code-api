@@ -18,8 +18,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
-import static com.example.formapi.domain.application.CompanyRole.CREATE_TEMPLATE_ROLE;
-
 @Component
 @RequiredArgsConstructor
 @Profile("add-data")
@@ -34,8 +32,8 @@ public class FeedData implements CommandLineRunner {
     @Transactional
     public void run(String... args) {
         List<Company> companies = addCompanies();// companyRepository.findAll();
-        Set<CompanyRole> companyRoles1 = addRolesToCompany(companies.get(0), List.of("Inspector grad 1", "Inspector grad 2", CREATE_TEMPLATE_ROLE));
-        Set<CompanyRole> companyRoles2 = addRolesToCompany(companies.get(1), List.of("Rol 1", "Rol 2", "Rol 3", CREATE_TEMPLATE_ROLE));
+        Set<CompanyRole> companyRoles1 = addRolesToCompany(companies.get(0), List.of("Inspector grad 1", "Inspector grad 2"));
+        Set<CompanyRole> companyRoles2 = addRolesToCompany(companies.get(1), List.of("Rol 1", "Rol 2", "Rol 3"));
         List<User> users = addUsers();// userRepository.findAll();
 
         addUserAdminToCompany(users.get(1), companies.get(0));

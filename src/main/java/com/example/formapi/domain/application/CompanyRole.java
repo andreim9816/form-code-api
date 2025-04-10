@@ -12,8 +12,6 @@ import java.util.List;
 @Table(name = "COMPANY_ROLE")
 public class CompanyRole {
 
-    public static final String CREATE_TEMPLATE_ROLE = "CREATE_TEMPLATE";
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

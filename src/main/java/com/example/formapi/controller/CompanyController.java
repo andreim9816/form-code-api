@@ -24,8 +24,6 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import static com.example.formapi.domain.application.CompanyRole.CREATE_TEMPLATE_ROLE;
-
 @Validated
 @RequiredArgsConstructor
 @RestController
@@ -48,7 +46,7 @@ public class CompanyController {
             User currentUser = webSecuritySupport.getUser();
             streamCompanies = streamCompanies.filter(
                     company -> company.getCompanyRoles().stream()
-                            .anyMatch(role -> role.getName().equals(CREATE_TEMPLATE_ROLE)
+                            .anyMatch(role -> role.isCreateTemplate()
                                     && role.getUsers().stream().map(User::getId).toList().contains(currentUser.getId())
                             )
             );

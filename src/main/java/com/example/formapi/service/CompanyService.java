@@ -2,6 +2,7 @@ package com.example.formapi.service;
 
 import com.example.formapi.domain.application.Company;
 import com.example.formapi.domain.application.CompanyRole;
+import com.example.formapi.domain.application.User;
 import com.example.formapi.dto.input.ReqCompanyDto;
 import com.example.formapi.dto.input.validation.ReqCompanyRole;
 import com.example.formapi.repository.application.CompanyRepository;
@@ -15,6 +16,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class CompanyService {
     private final CompanyRepository companyRepository;
+    private final UserService userService;
 
     public List<Company> findAll() {
         return companyRepository.findAll();
@@ -33,6 +35,14 @@ public class CompanyService {
 
             companyRole.setCompany(company);
         }
+
+        List<User> adminUsers = new ArrayList<>();
+        for (Long adminUserId : dto.getAdminUserIds()) {
+            User adminUser = userService.findById(adminUserId);
+            adminUsers.add(adminUser);
+        }
+        company.setAdminUsers(adminUsers);
+
         company.setCompanyRoles(companyRoles);
         // todo parse dto.getEmails() and send a creation link for update. Here maybe I can mock some data
         // maybe a user should create its role in the normal flow and then, the ADMIN will add him to the adminUsers list of the Company entity

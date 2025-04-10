@@ -12,4 +12,5 @@ public class ReqCompanyDto {
     @NotBlank
     private String name;
     private List<ReqCompanyRole> companyRoles;
+    private List<Long> adminUserIds;
 }
