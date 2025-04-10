@@ -20,6 +20,13 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     @Query("""
             select usr from User usr
+            left join fetch usr.companyRoles
+            where usr.id = :id
+            """)
+    Optional<User> findById(@Param("id") Long id);
+
+    @Query("""
+            select usr from User usr
             join usr.companyRoles companyRoles
             where companyRoles.id in :companyRoleIds
             """)

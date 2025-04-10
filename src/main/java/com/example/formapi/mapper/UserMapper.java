@@ -7,6 +7,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
+import java.util.stream.Collectors;
+
 @Component
 @RequiredArgsConstructor
 public class UserMapper {
@@ -24,8 +26,9 @@ public class UserMapper {
                 .email(user.getEmail())
                 .phoneNumber(user.getPhoneNumber())
                 .isAdmin(user.getIsAdmin())
-                .companies(user.getCompanies().stream().map(companyMapper::toDto).toList())
-                .companyRoles(user.getCompanyRoles().stream().map(companyRoleMapper::toDto).toList())
+                //todo de ce crapa astea din FE, dar nu din postman? pt ca le-am comentat, crapa partea de User
+                .companies(user.getCompanies().stream().map(companyMapper::toDto).collect(Collectors.toList()))
+                .companyRoles(user.getCompanyRoles().stream().map(companyRoleMapper::toDto).collect(Collectors.toList()))
                 .build();
     }
 

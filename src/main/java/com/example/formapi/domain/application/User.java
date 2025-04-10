@@ -6,9 +6,7 @@ import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
+import java.util.*;
 
 @Data
 @Entity
@@ -46,7 +44,7 @@ public class User implements UserDetails {
     private Boolean isAdmin;
 
     @ManyToMany(mappedBy = "adminUsers")
-    private List<Company> companies = new ArrayList<>(); // companies where this user is COMPANY_ADMIN
+    private Set<Company> companies = new HashSet<>(); // companies where this user is COMPANY_ADMIN
 
     @ManyToMany
     @JoinTable(
@@ -54,7 +52,7 @@ public class User implements UserDetails {
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "company_role_id")
     )
-    private List<CompanyRole> companyRoles = new ArrayList<>();
+    Set<CompanyRole> companyRoles = new HashSet<>();
 
     @ToString.Exclude
     @OneToMany(mappedBy = "creatorUser")

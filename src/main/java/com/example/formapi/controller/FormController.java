@@ -41,7 +41,12 @@ public class FormController {
                 return currentUserId.equals(currentFormUserId);
             });
         }
-        return forms.map(formMapper::toDto).collect(Collectors.toList());
+//        return forms.map(formMapper::toDto).collect(Collectors.toList());
+
+        return forms
+                .map(formMapper::toDto)
+                .sorted((o1, o2) -> o2.getCreatedDate().compareTo(o1.getCreatedDate()))
+                .collect(Collectors.toList());
     }
 
     @GetMapping("/{formId}")

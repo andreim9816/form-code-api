@@ -16,10 +16,11 @@ public class WebSecuritySupport {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
         if (authentication.getPrincipal() instanceof User) {
-            return (User) authentication.getPrincipal();
+            User user = (User) authentication.getPrincipal();
+            return userRepository.findById(user.getId()).get();
         }
         //todo
-        return userRepository.findById(3L).orElseThrow();
+        return userRepository.findById(2L).orElseThrow();
 //        return null;
     }
 }

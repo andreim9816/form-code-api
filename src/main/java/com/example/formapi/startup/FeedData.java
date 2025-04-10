@@ -13,8 +13,12 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
+import java.util.Set;
+
+import static com.example.formapi.domain.application.CompanyRole.CREATE_TEMPLATE_ROLE;
 
 @Component
 @RequiredArgsConstructor
@@ -28,20 +32,29 @@ public class FeedData implements CommandLineRunner {
 
     @Override
     @Transactional
-    public void run(String... args) throws Exception {
-        List<Company> companies = addCompanies();
-        List<CompanyRole> companyRoles1 = addRolesToCompany(companies.get(0), new ArrayList<>(List.of("Inspector grad 1", "Inspector grad 2")));
-        List<CompanyRole> companyRoles2 = addRolesToCompany(companies.get(1), new ArrayList<>(List.of("Rol 1", "Rol 2", "Rol 3")));
-        List<User> users = addUsers();
+    public void run(String... args) {
+        List<Company> companies = addCompanies();// companyRepository.findAll();
+        Set<CompanyRole> companyRoles1 = addRolesToCompany(companies.get(0), List.of("Inspector grad 1", "Inspector grad 2", CREATE_TEMPLATE_ROLE));
+        Set<CompanyRole> companyRoles2 = addRolesToCompany(companies.get(1), List.of("Rol 1", "Rol 2", "Rol 3", CREATE_TEMPLATE_ROLE));
+        List<User> users = addUsers();// userRepository.findAll();
 
         addUserAdminToCompany(users.get(1), companies.get(0));
         addUserAdminToCompany(users.get(3), companies.get(1));
 
         addCompanyRolesToComplianceUsers(users.get(1), companyRoles1);
-        addCompanyRolesToComplianceUsers(users.get(2), new ArrayList<>(companyRoles1.subList(0, 1)));
+        addCompanyRolesToComplianceUsers(users.get(2), getCompanyRolesByName("Inspector grad 1"));
         addCompanyRolesToComplianceUsers(users.get(3), companyRoles2);
-        addCompanyRolesToComplianceUsers(users.get(4), new ArrayList<>(companyRoles2.subList(0, 2)));
+        addCompanyRolesToComplianceUsers(users.get(4), getCompanyRolesByName("Rol 1", "Rol 2"));
 
+    }
+
+    private Set<CompanyRole> getCompanyRolesByName(String... names) {
+        Set<CompanyRole> companyRoles = new HashSet<>();
+        for (String name : names) {
+            Optional<CompanyRole> companyRole = companyRoleRepository.findByName(name);
+            companyRole.ifPresent(companyRoles::add);
+        }
+        return companyRoles;
     }
 
     private List<Company> addCompanies() {
@@ -53,8 +66,8 @@ public class FeedData implements CommandLineRunner {
         return companyRepository.saveAll(List.of(company1, company2));
     }
 
-    private List<CompanyRole> addRolesToCompany(Company company, List<String> roles) {
-        List<CompanyRole> saved = new ArrayList<>();
+    private Set<CompanyRole> addRolesToCompany(Company company, List<String> roles) {
+        Set<CompanyRole> saved = new HashSet<>();
 
         for (String role : roles) {
             CompanyRole companyRole = new CompanyRole();
@@ -113,7 +126,7 @@ public class FeedData implements CommandLineRunner {
         return userRepository.saveAll(List.of(user1, user2, user3, user4, user5));
     }
 
-    private User addCompanyRolesToComplianceUsers(User user, List<CompanyRole> companyRoles) {
+    private User addCompanyRolesToComplianceUsers(User user, Set<CompanyRole> companyRoles) {
         user.setCompanyRoles(companyRoles);
         return userRepository.save(user);
     }

@@ -13,6 +13,7 @@ public class CompanyRoleMapper {
         CompanyRoleDto dto = new CompanyRoleDto();
         dto.setId(companyRole.getId());
         dto.setName(companyRole.getName());
+        dto.setCreateTemplate(companyRole.isCreateTemplate());
         dto.setCompanyId(companyRole.getCompany().getId());
         dto.setCompanyName(companyRole.getCompany().getName());
         return dto;

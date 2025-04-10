@@ -13,6 +13,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
@@ -33,9 +34,9 @@ public class UserService implements UserDetailsService {
     }
 
     public User updateRoles(User user, List<Long> companyRoleIds) {
-        List<CompanyRole> companyRoles = companyRoleIds.stream()
+        Set<CompanyRole> companyRoles = companyRoleIds.stream()
                 .map(companyRoleService::findById)
-                .collect(Collectors.toList());
+                .collect(Collectors.toSet());
         user.setCompanyRoles(companyRoles);
         return userRepository.save(user);
     }

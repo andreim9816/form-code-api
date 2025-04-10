@@ -1,6 +1,8 @@
 package com.example.formapi.controller;
 
+import com.example.formapi.domain.application.Company;
 import com.example.formapi.domain.application.Template;
+import com.example.formapi.domain.application.User;
 import com.example.formapi.dto.CompanyDto;
 import com.example.formapi.dto.CompanyRoleDto;
 import com.example.formapi.dto.TemplateDto;
@@ -10,6 +12,7 @@ import com.example.formapi.mapper.CompanyMapper;
 import com.example.formapi.mapper.CompanyRoleMapper;
 import com.example.formapi.mapper.TemplateMapper;
 import com.example.formapi.repository.application.CompanyRoleRepository;
+import com.example.formapi.security.WebSecuritySupport;
 import com.example.formapi.service.CompanyService;
 import com.example.formapi.service.TemplateService;
 import lombok.RequiredArgsConstructor;
@@ -17,6 +20,11 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
+import static com.example.formapi.domain.application.CompanyRole.CREATE_TEMPLATE_ROLE;
 
 @Validated
 @RequiredArgsConstructor
@@ -24,6 +32,7 @@ import java.util.List;
 @RequestMapping(value = "/companies")
 public class CompanyController {
 
+    private final WebSecuritySupport webSecuritySupport;
     private final CompanyRoleRepository companyRoleRepository;
     private final TemplateService templateService;
     private final TemplateMapper templateMapper;
@@ -32,14 +41,33 @@ public class CompanyController {
     private final CompanyService companyService;
 
     @GetMapping
-    public List<CompanyDto> getCompanies() {
-        return companyService.findAll().stream().map(companyMapper::toDto).toList();
+    public List<CompanyDto> getCompanies(@RequestParam(name = "createTemplate", required = false) boolean createTemplate) {
+        Stream<Company> streamCompanies = companyService.findAll().stream();
+
+        if (createTemplate) {
+            User currentUser = webSecuritySupport.getUser();
+            streamCompanies = streamCompanies.filter(
+                    company -> company.getCompanyRoles().stream()
+                            .anyMatch(role -> role.getName().equals(CREATE_TEMPLATE_ROLE)
+                                    && role.getUsers().stream().map(User::getId).toList().contains(currentUser.getId())
+                            )
+            );
+        }
+        return streamCompanies.map(companyMapper::toDto).collect(Collectors.toList());
     }
 
     @GetMapping("/{companyId}/roles")
     public List<CompanyRoleDto> getRolesForCompanyId(@PathVariable("companyId") Long companyId) {
         return companyRoleRepository.getCompanyRoleByCompany_Id(companyId).stream()
                 .map(companyRoleMapper::toDto)
+                .toList();
+    }
+
+    @GetMapping("/{companyId}/templates")
+    public List<TemplateDto> getTemplatesForCompanyId(@PathVariable("companyId") Long companyId) {
+        return templateService.findAll().stream()
+                .filter(template -> Objects.equals(template.getCompany().getId(), companyId))
+                .map(templateMapper::toDto)
                 .toList();
     }
 
