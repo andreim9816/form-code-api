@@ -27,5 +27,30 @@ public class CompanyRole {
     private Company company;
 
     @ManyToMany(mappedBy = "companyRoles")
+    private List<Section> sections = new ArrayList<>();
+
+    @ManyToMany(mappedBy = "companyRoles")
     private List<User> users = new ArrayList<>();
+
+    public CompanyRole addSection(Section section) {
+        sections.add(section);
+        section.getCompanyRoles().add(this);
+        return this;
+    }
+
+    public void removeSection(Section section) {
+        sections.remove(section);
+        section.getCompanyRoles().remove(this);
+    }
+
+    public CompanyRole addUser(User user) {
+        users.add(user);
+        user.getCompanyRoles().add(this);
+        return this;
+    }
+
+    public void removeUser(User user) {
+        users.remove(user);
+        user.getCompanyRoles().remove(this);
+    }
 }

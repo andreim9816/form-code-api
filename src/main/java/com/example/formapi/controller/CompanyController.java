@@ -1,6 +1,7 @@
 package com.example.formapi.controller;
 
 import com.example.formapi.domain.application.Company;
+import com.example.formapi.domain.application.CompanyRole;
 import com.example.formapi.domain.application.Template;
 import com.example.formapi.domain.application.User;
 import com.example.formapi.dto.CompanyDto;
@@ -11,6 +12,7 @@ import com.example.formapi.dto.input.ReqTemplateDto;
 import com.example.formapi.mapper.CompanyMapper;
 import com.example.formapi.mapper.CompanyRoleMapper;
 import com.example.formapi.mapper.TemplateMapper;
+import com.example.formapi.repository.application.CompanyRepository;
 import com.example.formapi.repository.application.CompanyRoleRepository;
 import com.example.formapi.security.WebSecuritySupport;
 import com.example.formapi.service.CompanyService;
@@ -32,6 +34,7 @@ public class CompanyController {
 
     private final WebSecuritySupport webSecuritySupport;
     private final CompanyRoleRepository companyRoleRepository;
+    private final CompanyRepository companyRepository;
     private final TemplateService templateService;
     private final TemplateMapper templateMapper;
     private final CompanyRoleMapper companyRoleMapper;
@@ -78,5 +81,27 @@ public class CompanyController {
     @PostMapping
     public CompanyDto createCompany(@RequestBody @Validated ReqCompanyDto dto) {
         return companyMapper.toDto(companyService.createCompany(dto));
+    }
+
+    @PatchMapping("/{companyId}")
+    public CompanyDto updateCompany(@PathVariable("companyId") Long companyId, @RequestBody ReqCompanyDto dto) {
+        return companyMapper.toDto(companyService.updateCompany(companyId, dto));
+    }
+
+    @DeleteMapping("/{companyId}")
+    public void deleteCompany(@PathVariable("companyId") Long companyId) {
+//        for (long i = companyId; i <= 100; i++) {
+        companyRepository.findById(companyId).ifPresent(company -> {
+
+            for (CompanyRole role : company.getCompanyRoles()) {
+                for (User user : role.getUsers()) {
+                    user.getCompanyRoles().remove(role);
+                }
+                role.getUsers().clear(); // just in case
+            }
+
+            companyRepository.delete(company);
+        });
+//        }
     }
 }

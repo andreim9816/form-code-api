@@ -52,7 +52,7 @@ public class User implements UserDetails {
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "company_role_id")
     )
-    Set<CompanyRole> companyRoles = new HashSet<>();
+    private Set<CompanyRole> companyRoles = new HashSet<>();
 
     @ToString.Exclude
     @OneToMany(mappedBy = "creatorUser")
@@ -65,5 +65,16 @@ public class User implements UserDetails {
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return new ArrayList<>();
+    }
+
+    public User addCompanyRole(CompanyRole companyRole) {
+        companyRoles.add(companyRole);
+        companyRole.getUsers().add(this);
+        return this;
+    }
+
+    public void removeCompanyRole(CompanyRole companyRole) {
+        companyRoles.remove(companyRole);
+        companyRole.getUsers().remove(this);
     }
 }

@@ -4,6 +4,7 @@ import lombok.Data;
 
 @Data
 public class ReqCompanyRole {
+    private Long companyRoleId;
     private String name;
     private boolean createTemplate;
 }
