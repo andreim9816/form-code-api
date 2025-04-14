@@ -46,6 +46,7 @@ public class FormService {
     public Form createForm(Template template) {
         Form form = new Form();
         form.setCreatedDate(LocalDate.now());
+        form.setLastModifiedDate(LocalDate.now());
 
         form.setTemplate(template);
         form.setCurrentUser(webSecuritySupport.getUser());
@@ -84,7 +85,7 @@ public class FormService {
                     .filter(user -> !Objects.equals(user.getId(), webSecuritySupport.getUser().getId()))
                     .toList();
             if (complianceUsers.isEmpty()) {
-                throw new CustomException("No compliance users found");
+                throw new CustomException("No validation compliance users found for section");
             }
             //todo
             return complianceUsers.get(0);

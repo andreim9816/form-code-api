@@ -32,6 +32,7 @@ public class FormSectionService {
                 .map(this::update)
                 .collect(toList());
 
+        updatedFormSections.getFirst().getForm().setLastModifiedDate(LocalDate.now());
         updateNextSectionAndUser(updatedFormSections.getFirst().getForm());
 
         return updatedFormSections;
@@ -44,6 +45,7 @@ public class FormSectionService {
                 .map(this::update)
                 .collect(toList());
 
+        updatedFormSections.getFirst().getForm().setLastModifiedDate(LocalDate.now());
         sendBackToPreviousSection(updatedFormSections.getFirst().getForm());
 
         return updatedFormSections;

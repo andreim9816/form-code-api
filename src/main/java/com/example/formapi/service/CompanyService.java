@@ -63,6 +63,7 @@ public class CompanyService {
     @Transactional
     public Company updateCompany(Long companyId, ReqCompanyDto dto) {
         Company company = findById(companyId).orElseThrow(() -> new InvalidEntityException("Invalid company"));
+        company.setName(dto.getName());
 
         List<CompanyRole> newCompanyRoles = new ArrayList<>();
         List<CompanyRole> updatedCompanyRoles = new ArrayList<>();

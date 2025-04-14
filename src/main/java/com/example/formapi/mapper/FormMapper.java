@@ -19,6 +19,7 @@ public class FormMapper {
         formDto.setId(form.getId());
         formDto.setCreatedDate(form.getCreatedDate());
         formDto.setFinishedDate(form.getFinishedDate());
+        formDto.setLastModifiedDate(form.getLastModifiedDate());
         formDto.setCurrentValidationSectionId(form.getCurrentValidationSection() != null ? form.getCurrentValidationSection().getId() : null);
         formDto.setCurrentSectionId(form.getCurrentSection() != null ? form.getCurrentSection().getId() : null);
         formDto.setCurrentUser(userMapper.toDto(form.getCurrentUser()));

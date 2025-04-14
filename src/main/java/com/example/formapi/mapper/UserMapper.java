@@ -18,6 +18,9 @@ public class UserMapper {
     private final CompanyMapper companyMapper;
 
     public UserDto toDto(User user) {
+        if (user == null) {
+            return null;
+        }
         return UserDto.builder()
                 .id(user.getId())
                 .username(user.getUsername())
@@ -26,7 +29,6 @@ public class UserMapper {
                 .email(user.getEmail())
                 .phoneNumber(user.getPhoneNumber())
                 .isAdmin(user.getIsAdmin())
-                //todo de ce crapa astea din FE, dar nu din postman? pt ca le-am comentat, crapa partea de User
                 .companies(user.getCompanies().stream().map(companyMapper::toDto).collect(Collectors.toList()))
                 .companyRoles(user.getCompanyRoles().stream().map(companyRoleMapper::toDto).collect(Collectors.toList()))
                 .build();

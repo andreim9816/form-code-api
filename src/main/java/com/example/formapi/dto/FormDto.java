@@ -10,6 +10,7 @@ public class FormDto {
     private Long id;
     private LocalDate createdDate;
     private LocalDate finishedDate;
+    private LocalDate lastModifiedDate;
     private Long currentValidationSectionId;
     private Long currentSectionId;
     private UserDto currentUser;

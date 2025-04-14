@@ -25,6 +25,9 @@ public class Form {
     @LastModifiedDate
     private LocalDate finishedDate;
 
+    @Column(name = "LAST_MODIFIED_DATE")
+    private LocalDate lastModifiedDate;
+
     @ToString.Exclude
     @OneToOne
     @JoinColumn(name = "FK_CURR_VALID_SECTION")
