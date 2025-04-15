@@ -12,6 +12,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import java.text.ParseException;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -55,9 +56,12 @@ public class UserService implements UserDetailsService {
         isUsernameUnique(userDto.getUsername());
         isEmailUnique(userDto.getEmail());
         isPhoneUnique(userDto.getPhoneNumber());
-
-        User entity = userMapper.toEntity(userDto);
-
+        User entity;
+        try {
+            entity = userMapper.toEntity(userDto);
+        } catch (ParseException e) {
+            throw new CustomException("Cannot parse CNP");
+        }
         return userRepository.save(entity);
     }
 

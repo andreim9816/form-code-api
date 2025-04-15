@@ -1,5 +1,7 @@
 package com.example.formapi.dto.input.validation;
 
+import com.example.formapi.domain.enumeration.PersonalDataType;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -29,4 +31,7 @@ public class TextValidatorDto {
     private boolean isNoNumber;
 
     private String regex;
+
+    @JsonFormat(shape = JsonFormat.Shape.NUMBER) //for dto
+    private PersonalDataType personalDataType;
 }

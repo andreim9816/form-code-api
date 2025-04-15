@@ -16,6 +16,7 @@ import java.util.*;
 @AllArgsConstructor
 public class User implements UserDetails {
 
+    //todo maybe firstname, lastname, cnp, dateOfBirth, phoneNumber should be moved to dedicated table
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -26,6 +27,8 @@ public class User implements UserDetails {
 
     private String cnp;
 
+    private Date dateOfBirth;
+
     private String firstname;
 
     private String lastname;
@@ -33,12 +36,6 @@ public class User implements UserDetails {
     private String email;
 
     private String phoneNumber;
-
-//    @ElementCollection(targetClass = UserType.class, fetch = FetchType.EAGER)
-//    @CollectionTable(name = "user_user_types", joinColumns = @JoinColumn(name = "user_id"))
-//    @Enumerated(EnumType.STRING)
-//    @Column(name = "USER_TYPE")
-//    private List<UserType> userTypes;
 
     @Column(name = "IS_ADMIN")
     private Boolean isAdmin;
@@ -65,16 +62,5 @@ public class User implements UserDetails {
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return new ArrayList<>();
-    }
-
-    public User addCompanyRole(CompanyRole companyRole) {
-        companyRoles.add(companyRole);
-        companyRole.getUsers().add(this);
-        return this;
-    }
-
-    public void removeCompanyRole(CompanyRole companyRole) {
-        companyRoles.remove(companyRole);
-        companyRole.getUsers().remove(this);
     }
 }

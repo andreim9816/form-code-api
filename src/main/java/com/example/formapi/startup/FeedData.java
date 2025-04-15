@@ -84,6 +84,8 @@ public class FeedData implements CommandLineRunner {
                 .username("user1")
                 .password(passwordEncoder.encode("password1"))
                 .isAdmin(true)
+                .cnp()
+                .dateOfBirth()
                 .build();
 
         User user2 = User.builder()
@@ -93,6 +95,8 @@ public class FeedData implements CommandLineRunner {
                 .username("user2")
                 .password(passwordEncoder.encode("password2"))
                 .isAdmin(false)
+                .cnp()
+                .dateOfBirth()
                 .build();
 
         User user3 = User.builder()
@@ -102,6 +106,8 @@ public class FeedData implements CommandLineRunner {
                 .username("user3")
                 .password(passwordEncoder.encode("password3"))
                 .isAdmin(false)
+                .cnp()
+                .dateOfBirth()
                 .build();
 
         User user4 = User.builder()
@@ -111,6 +117,8 @@ public class FeedData implements CommandLineRunner {
                 .username("user4")
                 .password(passwordEncoder.encode("password4"))
                 .isAdmin(false)
+                .cnp()
+                .dateOfBirth()
                 .build();
 
         User user5 = User.builder()
@@ -120,6 +128,8 @@ public class FeedData implements CommandLineRunner {
                 .username("user5")
                 .password(passwordEncoder.encode("password5"))
                 .isAdmin(false)
+                .cnp()
+                .dateOfBirth()
                 .build();
         return userRepository.saveAll(List.of(user1, user2, user3, user4, user5));
     }

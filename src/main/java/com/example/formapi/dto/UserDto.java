@@ -2,6 +2,7 @@ package com.example.formapi.dto;
 
 import lombok.*;
 
+import java.util.Date;
 import java.util.List;
 
 @Getter
@@ -13,6 +14,8 @@ public class UserDto {
     private Long id;
     private String username;
     private String firstname;
+    private String cnp;
+    private Date dateOfBirth;
     private String lastname;
     private String email;
     private String phoneNumber;

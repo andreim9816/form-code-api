@@ -21,6 +21,7 @@ public class TextValidatorMapper {
                 .isNoSpace(dto.isNoSpace())
                 .isNoNumber(dto.isNoNumber())
                 .regex(dto.getRegex())
+                .personalDataType(dto.getPersonalDataType())
                 .build();
     }
 
@@ -37,6 +38,7 @@ public class TextValidatorMapper {
                 .isNoSpace(entity.isNoSpace())
                 .isNoNumber(entity.isNoNumber())
                 .regex(entity.getRegex())
+                .personalDataType(entity.getPersonalDataType())
                 .build();
     }
 }
