@@ -1,6 +1,7 @@
 package com.example.formapi.dto;
 
 import com.example.formapi.domain.enumeration.ContentType;
+import com.example.formapi.domain.enumeration.PersonalDataType;
 import com.example.formapi.dto.input.validation.DateValidatorDto;
 import com.example.formapi.dto.input.validation.NumberValidatorDto;
 import com.example.formapi.dto.input.validation.TextValidatorDto;
@@ -17,6 +18,9 @@ public class SectionFieldDto {
     private ContentType contentType;
     private String defaultValue;
     private Long sectionId;
+
+    @JsonFormat(shape = JsonFormat.Shape.NUMBER) //for dto
+    private PersonalDataType personalDataType;
 
     // validators
     private TextValidatorDto textValidator;

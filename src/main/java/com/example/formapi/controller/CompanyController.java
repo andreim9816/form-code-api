@@ -57,24 +57,26 @@ public class CompanyController {
         return streamCompanies.map(companyMapper::toDto).collect(Collectors.toList());
     }
 
-    @GetMapping("/{companyId}/roles")
-    public List<CompanyRoleDto> getRolesForCompanyId(@PathVariable("companyId") Long companyId) {
+    @GetMapping("/roles")
+    public List<CompanyRoleDto> getRolesForCompany() {
+        Long companyId = companyService.getCompanyIdForInstance();
         return companyRoleRepository.getCompanyRoleByCompany_Id(companyId).stream()
                 .map(companyRoleMapper::toDto)
                 .toList();
     }
 
-    @GetMapping("/{companyId}/templates")
-    public List<TemplateDto> getTemplatesForCompanyId(@PathVariable("companyId") Long companyId) {
+    @GetMapping("/templates")
+    public List<TemplateDto> getTemplatesForCompany() {
+        Long companyId = companyService.getCompanyIdForInstance();
         return templateService.findAll().stream()
                 .filter(template -> Objects.equals(template.getCompany().getId(), companyId))
                 .map(templateMapper::toDto)
                 .toList();
     }
 
-    @PostMapping("/{companyId}/templates")
-    public TemplateDto createTemplate(@PathVariable("companyId") Long companyId, @RequestBody ReqTemplateDto dto) {
-        Template template = templateService.createTemplate(companyId, dto);
+    @PostMapping("/templates")
+    public TemplateDto createTemplate(@RequestBody ReqTemplateDto dto) {
+        Template template = templateService.createTemplate(dto);
         return templateMapper.toDto(template);
     }
 

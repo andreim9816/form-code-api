@@ -6,6 +6,7 @@ import com.example.formapi.domain.application.User;
 import com.example.formapi.repository.application.CompanyRepository;
 import com.example.formapi.repository.application.CompanyRoleRepository;
 import com.example.formapi.repository.application.UserRepository;
+import com.example.formapi.utils.DateUtils;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
@@ -13,10 +14,8 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import java.text.ParseException;
+import java.util.*;
 
 @Component
 @RequiredArgsConstructor
@@ -30,7 +29,7 @@ public class FeedData implements CommandLineRunner {
 
     @Override
     @Transactional
-    public void run(String... args) {
+    public void run(String... args) throws ParseException {
         List<Company> companies = addCompanies();// companyRepository.findAll();
         Set<CompanyRole> companyRoles1 = addRolesToCompany(companies.get(0), List.of("Inspector grad 1", "Inspector grad 2"));
         Set<CompanyRole> companyRoles2 = addRolesToCompany(companies.get(1), List.of("Rol 1", "Rol 2", "Rol 3"));
@@ -76,7 +75,7 @@ public class FeedData implements CommandLineRunner {
         return saved;
     }
 
-    private List<User> addUsers() {
+    private List<User> addUsers() throws ParseException {
         User user1 = User.builder()
                 .email("user1@gmail.com")
                 .firstname("firstname 1")
@@ -84,8 +83,8 @@ public class FeedData implements CommandLineRunner {
                 .username("user1")
                 .password(passwordEncoder.encode("password1"))
                 .isAdmin(true)
-                .cnp()
-                .dateOfBirth()
+                .cnp("1971126284712")
+                .dateOfBirth(DateUtils.extractBirthDateFromCNP("1971126284712"))
                 .build();
 
         User user2 = User.builder()
@@ -95,8 +94,8 @@ public class FeedData implements CommandLineRunner {
                 .username("user2")
                 .password(passwordEncoder.encode("password2"))
                 .isAdmin(false)
-                .cnp()
-                .dateOfBirth()
+                .cnp("1830303284712")
+                .dateOfBirth(DateUtils.extractBirthDateFromCNP("1830303284712"))
                 .build();
 
         User user3 = User.builder()
@@ -106,8 +105,8 @@ public class FeedData implements CommandLineRunner {
                 .username("user3")
                 .password(passwordEncoder.encode("password3"))
                 .isAdmin(false)
-                .cnp()
-                .dateOfBirth()
+                .cnp("1770513284712")
+                .dateOfBirth(DateUtils.extractBirthDateFromCNP("1770513284712"))
                 .build();
 
         User user4 = User.builder()
@@ -117,8 +116,8 @@ public class FeedData implements CommandLineRunner {
                 .username("user4")
                 .password(passwordEncoder.encode("password4"))
                 .isAdmin(false)
-                .cnp()
-                .dateOfBirth()
+                .cnp("2880102712342")
+                .dateOfBirth(DateUtils.extractBirthDateFromCNP("2880102712342"))
                 .build();
 
         User user5 = User.builder()
@@ -128,8 +127,8 @@ public class FeedData implements CommandLineRunner {
                 .username("user5")
                 .password(passwordEncoder.encode("password5"))
                 .isAdmin(false)
-                .cnp()
-                .dateOfBirth()
+                .cnp("2821217712342")
+                .dateOfBirth(DateUtils.extractBirthDateFromCNP("2821217712342"))
                 .build();
         return userRepository.saveAll(List.of(user1, user2, user3, user4, user5));
     }

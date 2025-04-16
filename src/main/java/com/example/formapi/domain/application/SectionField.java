@@ -4,6 +4,7 @@ import com.example.formapi.domain.application.validation.DateValidator;
 import com.example.formapi.domain.application.validation.NumberValidator;
 import com.example.formapi.domain.application.validation.TextValidator;
 import com.example.formapi.domain.enumeration.ContentType;
+import com.example.formapi.domain.enumeration.PersonalDataType;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -58,6 +59,10 @@ public class SectionField implements Comparable<SectionField> {
     @ToString.Exclude
     @OneToMany(mappedBy = "sectionField", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<FormSectionField> formSectionFields = new ArrayList<>();
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "PERSONAL_DATA_TYPE")
+    private PersonalDataType personalDataType;
 
     public void addFormSectionField(FormSectionField field) {
         formSectionFields.add(field);

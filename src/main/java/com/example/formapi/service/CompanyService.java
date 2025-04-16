@@ -23,6 +23,11 @@ public class CompanyService {
     private final CompanyRoleService companyRoleService;
     private final UserService userService;
 
+    //todo
+    public Long getCompanyIdForInstance() {
+        return 1L;
+    }
+
     public List<Company> findAll() {
         return companyRepository.findAll();
     }

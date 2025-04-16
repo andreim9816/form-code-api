@@ -1,7 +1,6 @@
 package com.example.formapi.domain.application.validation;
 
 import com.example.formapi.domain.application.SectionField;
-import com.example.formapi.domain.enumeration.PersonalDataType;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -39,10 +38,6 @@ public class TextValidator {
 
     @Column(name = "REGEX")
     private String regex;
-
-    @Enumerated(EnumType.STRING)
-    @Column(name = "PERSONAL_DATA_TYPE")
-    private PersonalDataType personalDataType;
 
     @ToString.Exclude
     @OneToMany(mappedBy = "textValidator", cascade = CascadeType.ALL, orphanRemoval = true)

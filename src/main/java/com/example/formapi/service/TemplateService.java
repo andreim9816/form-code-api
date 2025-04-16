@@ -17,6 +17,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class TemplateService {
     private final FormService formService;
+    private final CompanyService companyService;
     private final TemplateRepository templateRepository;
     private final WebSecuritySupport webSecuritySupport;
     private final TemplateMapper templateMapper;
@@ -31,7 +32,8 @@ public class TemplateService {
         return template;
     }
 
-    public Template createTemplate(Long companyId, ReqTemplateDto dto) {
+    public Template createTemplate(ReqTemplateDto dto) {
+        Long companyId = companyService.getCompanyIdForInstance();
         var template = templateMapper.toEntity(companyId, dto);
         template.setCreatorUser(webSecuritySupport.getUser());
 
