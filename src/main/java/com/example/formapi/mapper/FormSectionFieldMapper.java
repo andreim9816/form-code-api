@@ -2,13 +2,16 @@ package com.example.formapi.mapper;
 
 import com.example.formapi.domain.application.FormSectionField;
 import com.example.formapi.domain.client.ContentDate;
+import com.example.formapi.domain.client.ContentFile;
 import com.example.formapi.domain.client.ContentNumber;
 import com.example.formapi.domain.client.ContentString;
 import com.example.formapi.dto.FormSectionFieldDto;
 import com.example.formapi.dto.content.ContentDateDto;
+import com.example.formapi.dto.content.ContentFileDto;
 import com.example.formapi.dto.content.ContentNumberDto;
 import com.example.formapi.dto.content.ContentStringDto;
 import com.example.formapi.repository.client.ContentDateRepository;
+import com.example.formapi.repository.client.ContentFileRepository;
 import com.example.formapi.repository.client.ContentNumberRepository;
 import com.example.formapi.repository.client.ContentStringRepository;
 import lombok.RequiredArgsConstructor;
@@ -22,6 +25,7 @@ public class FormSectionFieldMapper {
     private final ContentStringRepository contentStringRepository;
     private final ContentNumberRepository contentNumberRepository;
     private final ContentDateRepository contentDateRepository;
+    private final ContentFileRepository contentFileRepository;
 
     public FormSectionFieldDto toDto(FormSectionField entity) {
         FormSectionFieldDto dto = new FormSectionFieldDto();
@@ -34,6 +38,7 @@ public class FormSectionFieldMapper {
         dto.setContentString(toDto(contentStringRepository.findById(sanitize(entity.getContentStringId())).orElse(null)));
         dto.setContentDate(toDto(contentDateRepository.findById(sanitize(entity.getContentDateId())).orElse(null)));
         dto.setContentNumber(toDto(contentNumberRepository.findById(sanitize(entity.getContentNumberId())).orElse(null)));
+        dto.setContentFile(toDto(contentFileRepository.findById(sanitize(entity.getContentFileId())).orElse(null)));
 
         return dto;
     }
@@ -63,6 +68,17 @@ public class FormSectionFieldMapper {
             ContentDateDto dto = new ContentDateDto();
             dto.setId(entity.getId());
             dto.setValue(entity.getValue());
+            return dto;
+        }
+        return null;
+    }
+
+    public ContentFileDto toDto(ContentFile entity) {
+        if (entity != null) {
+            ContentFileDto dto = new ContentFileDto();
+            dto.setId(entity.getId());
+            dto.setName(entity.getName());
+            dto.setContentType(entity.getContentType());
             return dto;
         }
         return null;

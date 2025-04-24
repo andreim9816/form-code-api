@@ -4,10 +4,14 @@ import com.example.formapi.domain.application.FormSection;
 import com.example.formapi.domain.application.FormSectionField;
 import com.example.formapi.domain.application.SectionField;
 import com.example.formapi.domain.client.ContentDate;
+import com.example.formapi.domain.client.ContentFile;
 import com.example.formapi.domain.client.ContentNumber;
 import com.example.formapi.domain.client.ContentString;
 import com.example.formapi.dto.FormSectionFieldDto;
+import com.example.formapi.exception.InvalidEntityException;
+import com.example.formapi.repository.application.FormSectionFieldRepository;
 import com.example.formapi.repository.client.ContentDateRepository;
+import com.example.formapi.repository.client.ContentFileRepository;
 import com.example.formapi.repository.client.ContentNumberRepository;
 import com.example.formapi.repository.client.ContentStringRepository;
 import com.example.formapi.utils.DateUtils;
@@ -18,9 +22,16 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class FormSectionFieldService {
 
+    private final FormSectionFieldRepository formSectionFieldRepository;
     private final ContentStringRepository contentStringRepository;
     private final ContentNumberRepository contentNumberRepository;
     private final ContentDateRepository contentDateRepository;
+    private final ContentFileRepository contentFileRepository;
+
+    public FormSectionField findById(Long id) {
+        return formSectionFieldRepository.findById(id)
+                .orElseThrow(() -> new InvalidEntityException(id));
+    }
 
     public FormSectionField createFormSectionField(FormSection formSection, SectionField sectionField) {
         FormSectionField formSectionField = new FormSectionField();
@@ -47,6 +58,12 @@ public class FormSectionFieldService {
                     content = contentDateRepository.save(content);
                     formSectionField.setContentDateId(content.getId());
                 }
+                case FILE -> {
+                    ContentFile content = new ContentFile();
+                    content.setValue(null);
+                    content = contentFileRepository.save(content);
+                    formSectionField.setContentFileId(content.getId());
+                }
                 case BREAK_LINE ->
                         formSectionField.setBreakLine(true); //todo won't this be redundant because SectionField has ContentType field???
             }
@@ -71,6 +88,11 @@ public class FormSectionFieldService {
                 content.setValue(dto.getContentDate().getValue());
                 contentDateRepository.save(content);
             }
+//            case FILE -> {
+//                ContentFile content = getContentFileById(dto.getContentFile().getId());
+//                content.setName(dto.getContentFile().getName()); //todo
+//                content.setContent(dto.getContentFile().getContent());
+//            }
         }
     }
 
@@ -79,6 +101,7 @@ public class FormSectionFieldService {
             case STRING -> deleteContentStringByIdIfExists(formSectionField.getContentStringId());
             case NUMBER -> deleteContentNumberByIdIfExists(formSectionField.getContentNumberId());
             case DATE -> deleteContentDateByIdIfExists(formSectionField.getContentDateId());
+            case FILE -> deleteContentFileByIdIfExists(formSectionField.getContentFileId());
             case BREAK_LINE -> {
             }
         }
@@ -96,6 +119,10 @@ public class FormSectionFieldService {
         return contentDateRepository.findById(id).orElse(null);
     }
 
+    public ContentFile getContentFileById(Long id) {
+        return contentFileRepository.findById(id).orElse(null);
+    }
+
     public void deleteContentStringByIdIfExists(Long id) {
         if (id != null) {
             contentStringRepository.deleteById(id);
@@ -111,6 +138,12 @@ public class FormSectionFieldService {
     public void deleteContentDateByIdIfExists(Long id) {
         if (id != null) {
             contentDateRepository.deleteById(id);
+        }
+    }
+
+    public void deleteContentFileByIdIfExists(Long id) {
+        if (id != null) {
+            contentFileRepository.deleteById(id);
         }
     }
 }

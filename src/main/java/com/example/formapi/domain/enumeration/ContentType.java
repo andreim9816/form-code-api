@@ -5,5 +5,6 @@ public enum ContentType {
     NUMBER,
     DATE,
     BOOLEAN,
+    FILE,
     BREAK_LINE
 }

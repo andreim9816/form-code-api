@@ -40,6 +40,7 @@ public class SectionFieldMapper {
             case STRING -> dto.setTextValidator(textValidatorMapper.toDto(sectionField.getTextValidator()));
             case NUMBER -> dto.setNumberValidator(numberValidatorMapper.toDto(sectionField.getNumberValidator()));
             case DATE -> dto.setDateValidator(dateValidatorMapper.toDto(sectionField.getDateValidator()));
+            case FILE -> {}
         }
         return dto;
     }
@@ -58,6 +59,7 @@ public class SectionFieldMapper {
             case BOOLEAN -> {
                 //todo validator
             }
+            case FILE -> {}
         }
     }
 }

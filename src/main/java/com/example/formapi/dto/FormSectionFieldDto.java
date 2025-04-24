@@ -1,6 +1,7 @@
 package com.example.formapi.dto;
 
 import com.example.formapi.dto.content.ContentDateDto;
+import com.example.formapi.dto.content.ContentFileDto;
 import com.example.formapi.dto.content.ContentNumberDto;
 import com.example.formapi.dto.content.ContentStringDto;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -17,6 +18,7 @@ public class FormSectionFieldDto {
     private ContentStringDto contentString;
     private ContentNumberDto contentNumber;
     private ContentDateDto contentDate;
+    private ContentFileDto contentFile;
 
     private Long contentBooleanId;
 }
