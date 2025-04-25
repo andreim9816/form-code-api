@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.UUID;
 
 import static java.util.stream.Collectors.toList;
 
@@ -57,7 +58,12 @@ public class FormSectionController {
 
             contentFile.setValue(dto.getContent().getBytes());
             contentFile.setContentType(dto.getContent().getContentType());
-            contentFile.setName(dto.getContent().getOriginalFilename());
+
+            String uuid = UUID.randomUUID().toString();
+            String newName = uuid.substring(0, uuid.length() / 2);
+
+            String extension = dto.getContent().getOriginalFilename().substring(dto.getContent().getOriginalFilename().lastIndexOf('.') + 1);
+            contentFile.setName(/*newName + "." + extension*/ dto.getContent().getOriginalFilename());
 
             contentFileRepository.save(contentFile);
         }
