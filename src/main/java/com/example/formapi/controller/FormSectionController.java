@@ -47,28 +47,28 @@ public class FormSectionController {
     @PostMapping(value = "/files", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public void updateFiles(@ModelAttribute ContentFilesDto contentFilesDto) throws IOException {
         for (ContentFileReqDto dto : contentFilesDto.getDtos()) {
-//            FormSectionField formSectionField = formSectionFieldService.findById(dto.getFormSectionFieldId());
-//
-//            if (formSectionField.getSectionField().getContentType() != ContentType.FILE) {
-//                log.warn("This should not happen! {}", formSectionField);
-//                continue;
-//            }
+
             ContentFile contentFile = contentFileRepository.findById(dto.getId())
                     .orElseThrow(() -> new InvalidEntityException(dto.getId()));
 
-            contentFile.setValue(dto.getContent().getBytes());
-            contentFile.setContentType(dto.getContent().getContentType());
+            if (dto.getIsNullFile() != null && dto.getIsNullFile().equals("true")) {
+                contentFile.setValue(null);
+                contentFile.setContentType(null);
+                contentFile.setName(null);
+            } else {
+                contentFile.setValue(dto.getContent().getBytes());
+                contentFile.setContentType(dto.getContent().getContentType());
 
-            String uuid = UUID.randomUUID().toString();
-            String newName = uuid.substring(0, uuid.length() / 2);
+                String uuid = UUID.randomUUID().toString();
+                String newName = uuid.substring(0, uuid.length() / 2);
 
-            String extension = dto.getContent().getOriginalFilename().substring(dto.getContent().getOriginalFilename().lastIndexOf('.') + 1);
-            contentFile.setName(/*newName + "." + extension*/ dto.getContent().getOriginalFilename());
+                String extension = dto.getContent().getOriginalFilename().substring(dto.getContent().getOriginalFilename().lastIndexOf('.') + 1);
+                contentFile.setName(/*newName + "." + extension*/ dto.getContent().getOriginalFilename());
+            }
 
             contentFileRepository.save(contentFile);
         }
     }
-
 
     @PatchMapping
     public List<FormSectionDto> updateForm(@RequestBody ReqFormDto formDto) {

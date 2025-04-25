@@ -7,5 +7,4 @@ public class ContentFileDto {
     private Long id;
     private String name;
     private String contentType;
-    private byte[] content;
 }
