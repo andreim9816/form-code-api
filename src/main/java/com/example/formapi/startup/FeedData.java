@@ -1,5 +1,6 @@
 package com.example.formapi.startup;
 
+import com.example.formapi.domain.application.Address;
 import com.example.formapi.domain.application.Company;
 import com.example.formapi.domain.application.CompanyRole;
 import com.example.formapi.domain.application.User;
@@ -15,7 +16,10 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import java.text.ParseException;
-import java.util.*;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Optional;
+import java.util.Set;
 
 @Component
 @RequiredArgsConstructor
@@ -76,6 +80,52 @@ public class FeedData implements CommandLineRunner {
     }
 
     private List<User> addUsers() throws ParseException {
+        Address address1 = Address.builder()
+                .street("Gloriei")
+                .block("B1")
+                .entrance("C")
+                .apartment(55L)
+                .city("Buzau")
+                .county("Buzau")
+                .build();
+
+        Address address2 = Address.builder()
+                .street("Tineretului")
+                .block("A")
+                .entrance("B")
+                .apartment(4L)
+                .city("Craiova")
+                .county("Dolj")
+                .build();
+
+        Address address3 = Address.builder()
+                .street("Economu Cezarescu")
+                .no("34-42")
+                .block("1")
+                .entrance("1")
+                .apartment(45L)
+                .city("Sector 6")
+                .county("Bucuresti")
+                .build();
+
+        Address address4 = Address.builder()
+                .street("Cuza Voda")
+                .block("8")
+                .entrance("A")
+                .apartment(6L)
+                .city("Roman")
+                .county("Neamt")
+                .build();
+
+        Address address5 = Address.builder()
+                .street("Trapezului")
+                .block("12")
+                .entrance("B2")
+                .apartment(105L)
+                .city("Sector 3")
+                .county("Bucuresti")
+                .build();
+
         User user1 = User.builder()
                 .email("user1@gmail.com")
                 .firstname("firstname 1")
@@ -85,6 +135,7 @@ public class FeedData implements CommandLineRunner {
                 .isAdmin(true)
                 .cnp("1971126284712")
                 .dateOfBirth(DateUtils.extractBirthDateFromCNP("1971126284712"))
+                .address(address1)
                 .build();
 
         User user2 = User.builder()
@@ -96,6 +147,7 @@ public class FeedData implements CommandLineRunner {
                 .isAdmin(false)
                 .cnp("1830303284712")
                 .dateOfBirth(DateUtils.extractBirthDateFromCNP("1830303284712"))
+                .address(address2)
                 .build();
 
         User user3 = User.builder()
@@ -107,6 +159,7 @@ public class FeedData implements CommandLineRunner {
                 .isAdmin(false)
                 .cnp("1770513284712")
                 .dateOfBirth(DateUtils.extractBirthDateFromCNP("1770513284712"))
+                .address(address3)
                 .build();
 
         User user4 = User.builder()
@@ -118,6 +171,7 @@ public class FeedData implements CommandLineRunner {
                 .isAdmin(false)
                 .cnp("2880102712342")
                 .dateOfBirth(DateUtils.extractBirthDateFromCNP("2880102712342"))
+                .address(address4)
                 .build();
 
         User user5 = User.builder()
@@ -129,7 +183,9 @@ public class FeedData implements CommandLineRunner {
                 .isAdmin(false)
                 .cnp("2821217712342")
                 .dateOfBirth(DateUtils.extractBirthDateFromCNP("2821217712342"))
+                .address(address5)
                 .build();
+
         return userRepository.saveAll(List.of(user1, user2, user3, user4, user5));
     }
 

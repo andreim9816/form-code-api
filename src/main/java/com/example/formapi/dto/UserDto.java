@@ -20,6 +20,7 @@ public class UserDto {
     private String email;
     private String phoneNumber;
     private Boolean isAdmin;
+    private AddressDto address;
     private List<CompanyDto> companies;
     private List<CompanyRoleDto> companyRoles;
 }

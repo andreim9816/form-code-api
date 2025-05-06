@@ -37,6 +37,10 @@ public class User implements UserDetails {
 
     private String phoneNumber;
 
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "ADDRESS_ID")
+    private Address address;
+
     @Column(name = "IS_ADMIN")
     private Boolean isAdmin;
 

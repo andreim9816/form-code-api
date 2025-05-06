@@ -1,6 +1,8 @@
 package com.example.formapi.mapper;
 
+import com.example.formapi.domain.application.Address;
 import com.example.formapi.domain.application.User;
+import com.example.formapi.dto.AddressDto;
 import com.example.formapi.dto.UserDto;
 import com.example.formapi.dto.input.ReqUserDto;
 import com.example.formapi.utils.DateUtils;
@@ -33,6 +35,7 @@ public class UserMapper {
                 .email(user.getEmail())
                 .phoneNumber(user.getPhoneNumber())
                 .isAdmin(user.getIsAdmin())
+                .address(toDtoAddress(user.getAddress()))
                 .companies(user.getCompanies().stream().map(companyMapper::toDto).collect(Collectors.toList()))
                 .companyRoles(user.getCompanyRoles().stream().map(companyRoleMapper::toDto).collect(Collectors.toList()))
                 .build();
@@ -49,6 +52,19 @@ public class UserMapper {
                 .email(dto.getEmail())
                 .phoneNumber(dto.getPhoneNumber())
                 .isAdmin(false)
+                .build();
+    }
+
+    public AddressDto toDtoAddress(Address address) {
+        return AddressDto.builder()
+                .id(address.getId())
+                .street(address.getStreet())
+                .no(address.getNo())
+                .block(address.getBlock())
+                .entrance(address.getEntrance())
+                .apartment(address.getApartment())
+                .city(address.getCity())
+                .county(address.getCounty())
                 .build();
     }
 }
