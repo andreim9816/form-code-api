@@ -6,6 +6,7 @@ import com.example.formapi.dto.input.ReqUserDto;
 import com.example.formapi.exception.CustomException;
 import com.example.formapi.exception.InvalidEntityException;
 import com.example.formapi.mapper.UserMapper;
+import com.example.formapi.ocr.OcrService;
 import com.example.formapi.repository.application.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -21,6 +22,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class UserService implements UserDetailsService {
 
+    private final OcrService ocrService;
     private final CompanyRoleService companyRoleService;
     private final UserRepository userRepository;
     private final UserMapper userMapper;
@@ -58,6 +60,16 @@ public class UserService implements UserDetailsService {
         isPhoneUnique(userDto.getPhoneNumber());
         User entity;
         try {
+            String address = ocrService.extractAddress();
+            String cnp = ocrService.extractCnp();
+            String firstName = ocrService.extractFirstName();
+            String lastName = ocrService.extractLastName();
+
+            userDto.setCnp(cnp);
+            userDto.setFirstname(firstName);
+            userDto.setLastname(lastName);
+            userDto.setAddress(address);
+
             entity = userMapper.toEntity(userDto);
         } catch (ParseException e) {
             throw new CustomException("Cannot parse CNP");

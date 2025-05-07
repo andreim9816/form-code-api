@@ -135,7 +135,8 @@ public class FeedData implements CommandLineRunner {
                 .isAdmin(true)
                 .cnp("1971126284712")
                 .dateOfBirth(DateUtils.extractBirthDateFromCNP("1971126284712"))
-                .address(address1)
+//                .address(address1)
+                .address("str.Gloriei, bl.A, sc.B, ap.4 Craiova, Dolj")
                 .build();
 
         User user2 = User.builder()
@@ -147,7 +148,8 @@ public class FeedData implements CommandLineRunner {
                 .isAdmin(false)
                 .cnp("1830303284712")
                 .dateOfBirth(DateUtils.extractBirthDateFromCNP("1830303284712"))
-                .address(address2)
+//                .address(address2)
+                .address("str.Tineretului, bl.B1, sc.C, ap.55 Buzau, Buzau")
                 .build();
 
         User user3 = User.builder()
@@ -159,7 +161,8 @@ public class FeedData implements CommandLineRunner {
                 .isAdmin(false)
                 .cnp("1770513284712")
                 .dateOfBirth(DateUtils.extractBirthDateFromCNP("1770513284712"))
-                .address(address3)
+//                .address(address3)
+                .address("str.Economu Cezarescu, nr.34-42, bl.1, sc.1, ap.45 Sector 6 Mun Bucuresti")
                 .build();
 
         User user4 = User.builder()
@@ -171,7 +174,8 @@ public class FeedData implements CommandLineRunner {
                 .isAdmin(false)
                 .cnp("2880102712342")
                 .dateOfBirth(DateUtils.extractBirthDateFromCNP("2880102712342"))
-                .address(address4)
+//                .address(address4)
+                .address("str.Cuza Voda, bl.8, sc.A, ap. 6 Roman, Neamt")
                 .build();
 
         User user5 = User.builder()
@@ -183,7 +187,8 @@ public class FeedData implements CommandLineRunner {
                 .isAdmin(false)
                 .cnp("2821217712342")
                 .dateOfBirth(DateUtils.extractBirthDateFromCNP("2821217712342"))
-                .address(address5)
+//                .address(address5)
+                .address("str.Trapezului, bl.12, sc.B, ap.105 Sector 3, Mun Bucuresti")
                 .build();
 
         return userRepository.saveAll(List.of(user1, user2, user3, user4, user5));

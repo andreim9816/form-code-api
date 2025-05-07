@@ -9,13 +9,17 @@ public class ReqUserDto {
 
     private String password;
 
+    private String email;
+
+    private String phoneNumber;
+
+    // will be null at request, but will be set by ocr service
+
     private String cnp;
 
     private String firstname;
 
     private String lastname;
 
-    private String email;
-
-    private String phoneNumber;
+    private String address;
 }

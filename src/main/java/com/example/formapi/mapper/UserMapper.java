@@ -11,6 +11,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import java.text.ParseException;
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.stream.Collectors;
 
 @Component
@@ -35,7 +37,8 @@ public class UserMapper {
                 .email(user.getEmail())
                 .phoneNumber(user.getPhoneNumber())
                 .isAdmin(user.getIsAdmin())
-                .address(toDtoAddress(user.getAddress()))
+                .address(user.getAddress())
+//                .address(toDtoAddress(user.getAddress()))
                 .companies(user.getCompanies().stream().map(companyMapper::toDto).collect(Collectors.toList()))
                 .companyRoles(user.getCompanyRoles().stream().map(companyRoleMapper::toDto).collect(Collectors.toList()))
                 .build();
@@ -51,7 +54,12 @@ public class UserMapper {
                 .dateOfBirth(DateUtils.extractBirthDateFromCNP(dto.getCnp()))
                 .email(dto.getEmail())
                 .phoneNumber(dto.getPhoneNumber())
+                .address(dto.getAddress())
                 .isAdmin(false)
+                .companies(new HashSet<>())
+                .companyRoles(new HashSet<>())
+                .templates(new ArrayList<>())
+                .startedForms(new ArrayList<>())
                 .build();
     }
 

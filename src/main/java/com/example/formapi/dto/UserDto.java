@@ -13,14 +13,15 @@ import java.util.List;
 public class UserDto {
     private Long id;
     private String username;
-    private String firstname;
     private String cnp;
     private Date dateOfBirth;
+    private String firstname;
     private String lastname;
     private String email;
     private String phoneNumber;
+//    private AddressDto address;
+    private String address;
     private Boolean isAdmin;
-    private AddressDto address;
     private List<CompanyDto> companies;
     private List<CompanyRoleDto> companyRoles;
 }
