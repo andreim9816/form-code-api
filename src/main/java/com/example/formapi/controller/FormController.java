@@ -38,7 +38,7 @@ public class FormController {
         if (assignedToMe) {
             forms = forms.filter(form -> {
                 Long currentFormUserId = form.getCurrentUser() != null ? form.getCurrentUser().getId() : null;
-                return currentUserId.equals(currentFormUserId);
+                return currentUserId.equals(currentFormUserId) && !form.getCreatorUser().getId().equals(currentUserId);
             });
         }
 //        return forms.map(formMapper::toDto).collect(Collectors.toList());
