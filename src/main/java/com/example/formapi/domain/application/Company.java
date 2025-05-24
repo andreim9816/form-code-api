@@ -16,6 +16,7 @@ public class Company {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(name="NAME", unique = true, nullable = false)
     private String name;
 
     @ToString.Exclude

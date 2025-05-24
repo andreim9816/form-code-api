@@ -79,9 +79,10 @@ public class FormService {
 
     public User getNextUser(Form form, FormSection currentFormSection) {
         if (currentUserWasSimpleUser(form)) {
-            List<User> complianceUsers = userRepository.findUsersByCompanyRoles(
-                            currentFormSection.getSection().getCompanyRoles().stream().map(CompanyRole::getId).toList()
-                    ).stream()
+            var validationCompanyRoleIds = currentFormSection.getForm().getCurrentValidationSection()
+                    .getSection().getCompanyRoles()
+                    .stream().map(CompanyRole::getId).toList();
+            List<User> complianceUsers = userRepository.findUsersByCompanyRoles(validationCompanyRoleIds).stream()
                     .filter(user -> !Objects.equals(user.getId(), webSecuritySupport.getUser().getId())) //todo this should not be commented
                     .toList();
             if (complianceUsers.isEmpty()) {
@@ -101,7 +102,7 @@ public class FormService {
                 return formSection;
             }
         }
-        throw new CustomException("Couldn't find the next validation section");
+        throw new CustomException("There is no validation section");
     }
 
     public boolean currentUserWasSimpleUser(Form form) {

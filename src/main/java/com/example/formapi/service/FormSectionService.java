@@ -95,11 +95,18 @@ public class FormSectionService {
     }
 
     public void sendBackToPreviousSection(Form form) {
-        FormSection previousSection = form.getFormSections().stream()
+        var formSections = form.getFormSections().stream()
                 .filter(formSection -> formSection.getId() < form.getCurrentValidationSection().getId())
-                .reduce((first, second) -> second)
-                .orElse(null);
-        form.setCurrentSection(previousSection);
+                .toList();
+
+        FormSection previousFormSection = formSections.get(0);
+        for (int i = formSections.size() - 1; i >= 0; i--) {
+            if (formSections.get(i).getSection().isValidation()) {
+                previousFormSection = formSections.get(i);
+                break;
+            }
+        }
+        form.setCurrentSection(previousFormSection);
         form.setCurrentUser(form.getCreatorUser());
     }
 }

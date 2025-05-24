@@ -24,7 +24,7 @@ public class SectionMapper {
         var section = new Section();
         section.setTitle(sectionDto.getTitle());
         section.setValidation(sectionDto.isValidation());
-        if (!section.isValidation() && sectionDto.getCompanyRoles().isEmpty()) {
+        if (section.isValidation() && sectionDto.getCompanyRoles().isEmpty()) {
             throw new CustomException("Sections must have at least one validation company role");
         }
         section.setCompanyRoles(sectionDto.getCompanyRoles().stream()

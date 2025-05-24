@@ -65,16 +65,16 @@ public class Section implements Comparable<Section> {
                 '}';
     }
 
-    public Section addCompanyRole(CompanyRole companyRole) {
-        companyRoles.add(companyRole);
-        companyRole.getSections().add(this);
-        return this;
-    }
-
-    public void removeCompanyRole(CompanyRole companyRole) {
-        companyRoles.remove(companyRole);
-        companyRole.getSections().remove(this);
-    }
+//    public Section addCompanyRole(CompanyRole companyRole) {
+//        companyRoles.add(companyRole);
+//        companyRole.getSections().add(this);
+//        return this;
+//    }
+//
+//    public void removeCompanyRole(CompanyRole companyRole) {
+//        companyRoles.remove(companyRole);
+//        companyRole.getSections().remove(this);
+//    }
 
 }
 
