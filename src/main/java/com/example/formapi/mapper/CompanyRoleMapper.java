@@ -14,6 +14,7 @@ public class CompanyRoleMapper {
         dto.setId(companyRole.getId());
         dto.setName(companyRole.getName());
         dto.setCreateTemplate(companyRole.isCreateTemplate());
+        dto.setValidateForm(companyRole.isValidateForm());
         dto.setCompanyId(companyRole.getCompany().getId());
         dto.setCompanyName(companyRole.getCompany().getName());
         return dto;

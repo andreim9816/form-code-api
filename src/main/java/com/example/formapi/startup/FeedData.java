@@ -74,6 +74,8 @@ public class FeedData implements CommandLineRunner {
             CompanyRole companyRole = new CompanyRole();
             companyRole.setName(role);
             companyRole.setCompany(company);
+            companyRole.setCreateTemplate(true);
+            companyRole.setValidateForm(true);
             saved.add(companyRoleRepository.save(companyRole));
         }
         return saved;

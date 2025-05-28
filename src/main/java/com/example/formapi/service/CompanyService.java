@@ -45,6 +45,7 @@ public class CompanyService {
             CompanyRole companyRole = new CompanyRole();
             companyRole.setName(role.getName());
             companyRole.setCreateTemplate(role.isCreateTemplate());
+            companyRole.setValidateForm(role.isValidateForm());
             companyRoles.add(companyRole);
 
             companyRole.setCompany(company);
@@ -80,6 +81,7 @@ public class CompanyService {
                     CompanyRole newCompanyRole = new CompanyRole();
                     newCompanyRole.setName(companyRole.getName());
                     newCompanyRole.setCreateTemplate(companyRole.isCreateTemplate());
+                    newCompanyRole.setValidateForm(companyRole.isValidateForm());
                     newCompanyRole.setCompany(company);
                     company.getCompanyRoles().add(newCompanyRole);
                 });
@@ -90,6 +92,7 @@ public class CompanyService {
                     CompanyRole updatedCompanyRole = companyRoleService.findById(companyRole.getCompanyRoleId());
                     updatedCompanyRole.setName(companyRole.getName());
                     updatedCompanyRole.setCreateTemplate(companyRole.isCreateTemplate());
+                    updatedCompanyRole.setValidateForm(companyRole.isValidateForm());
                     updatedCompanyRole.setCompany(company); //?
                 });
 

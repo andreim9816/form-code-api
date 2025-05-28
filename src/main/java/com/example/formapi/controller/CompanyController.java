@@ -61,6 +61,7 @@ public class CompanyController {
     public List<CompanyRoleDto> getRolesForCompany() {
         Long companyId = companyService.getCompanyIdForInstance();
         return companyRoleRepository.getCompanyRoleByCompany_Id(companyId).stream()
+                .filter(CompanyRole::isValidateForm)
                 .map(companyRoleMapper::toDto)
                 .toList();
     }

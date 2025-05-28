@@ -2,6 +2,7 @@ package com.example.formapi.service;
 
 import com.example.formapi.domain.application.Form;
 import com.example.formapi.domain.application.FormSection;
+import com.example.formapi.domain.enumeration.FormSectionStatus;
 import com.example.formapi.dto.input.FormSectionDto;
 import com.example.formapi.repository.application.FormSectionRepository;
 import jakarta.transaction.Transactional;
@@ -29,7 +30,7 @@ public class FormSectionService {
     @Transactional
     public List<FormSection> update(List<FormSectionDto> formSections) {
         List<FormSection> updatedFormSections = formSections.stream()
-                .map(this::update)
+                .map(x -> update(x, true))
                 .collect(toList());
 
         updatedFormSections.getFirst().getForm().setLastModifiedDate(LocalDate.now());
@@ -42,7 +43,7 @@ public class FormSectionService {
     @Transactional
     public List<FormSection> rejectForm(List<FormSectionDto> formSections) {
         List<FormSection> updatedFormSections = formSections.stream()
-                .map(this::update)
+                .map(x -> update(x, false))
                 .collect(toList());
 
         updatedFormSections.getFirst().getForm().setLastModifiedDate(LocalDate.now());
@@ -51,11 +52,19 @@ public class FormSectionService {
         return updatedFormSections;
     }
 
-    public FormSection update(FormSectionDto formSectionDto) {
+    public FormSection update(FormSectionDto formSectionDto, boolean isValid) {
         FormSection formSection = findById(formSectionDto.getId());
         formSectionDto.getFormSectionFields().stream()
                 .filter(formSectionFieldDto -> formSectionFieldDto.getSectionField().getDefaultValue() == null)
                 .forEach(formSectionFieldService::updateFormSectionField);
+
+        if (!formSection.getSection().isValidation()) {
+            if (isValid) {
+                formSection.setStatus(FormSectionStatus.VALIDATED);
+            } else {
+                formSection.setStatus(FormSectionStatus.PENDING_VALIDATION);
+            }
+        }
 
         return formSection;
     }

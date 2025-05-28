@@ -21,6 +21,9 @@ public class CompanyRole {
     @Column(name = "CREATE_TEMPLATE")
     private boolean createTemplate;
 
+    @Column(name = "VALIDATE_FORM")
+    private boolean validateForm;
+
     @ToString.Exclude
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "FK_COMPANY_ID")

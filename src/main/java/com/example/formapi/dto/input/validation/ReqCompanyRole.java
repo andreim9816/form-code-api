@@ -7,4 +7,5 @@ public class ReqCompanyRole {
     private Long companyRoleId;
     private String name;
     private boolean createTemplate;
+    private boolean validateForm;
 }
